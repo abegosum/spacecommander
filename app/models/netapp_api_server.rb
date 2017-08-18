@@ -9,6 +9,7 @@ class NetappApiServer
   DEFAULT_API_MAJOR_VERSION = 1
   DEFAULT_API_MINOR_VERSION = 20
   API_LOOP_LIMIT = 20
+  LEGACY_API_MAX_RESULTS = 20
 
   attr_accessor :host, :user, :pass, :server_type, :transport, :style, :port, :api_major_version, :api_minor_version
 
@@ -45,7 +46,7 @@ class NetappApiServer
   def invoke_api_or_fail method_name, *method_args
     response = invoke_api(method_name, *method_args)
     if response.results_status.eql? 'failed'
-      raise RuntimeError.new "#{method_name} api call failed"
+      raise RuntimeError.new "#{method_name} api call failed: #{response.results_reason}"
     end
     response
   end
