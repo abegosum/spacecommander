@@ -1,6 +1,7 @@
+require 'netapp_sdk/NaServer'
+require 'netapp_sdk/NaElement'
+
 class NetappApiServer
-  require 'netapp_sdk/NaServer'
-  require 'netapp_sdk/NaElement'
 
   DEFAULT_SERVER_TYPE = 'FILER'
   DEFAULT_STYLE = 'LOGIN'
@@ -26,50 +27,73 @@ class NetappApiServer
   end
 
   def na_server_instance
-    unless @na_server_instance
-      @na_server_instance = NaServer.new host, 1, 20
-      @na_server_instance.set_server_type server_type
-      @na_server_instance.set_style style
-      @na_server_instance.set_admin_user user, pass
-      @na_server_instance.set_transport_type transport
-      @na_server_instance.set_port port
+    @_na_server_instance ||= begin
+      @_na_server_instance = NaServer.new host, api_major_version, api_minor_version
+      @_na_server_instance.set_server_type server_type
+      @_na_server_instance.set_style style
+      @_na_server_instance.set_admin_user user, pass
+      @_na_server_instance.set_transport_type transport
+      @_na_server_instance.set_port port
+      @_na_server_instance
     end
-    @na_server_instance
   end
 
-  def invoke_api method_name, *method_args
+  def invoke_api(method_name, *method_args)
     puts "API CALL: #{method_name}"
     response = na_server_instance.invoke(method_name, *method_args)
     response
   end
 
-  def invoke_api_or_fail method_name, *method_args
+  def invoke_api_or_fail(method_name, *method_args)
     response = invoke_api(method_name, *method_args)
-    if response.results_status.eql? 'failed'
+    if response.results_status == 'failed'
       raise RuntimeError.new "#{method_name} api call failed: #{response.results_reason}"
     end
     response
   end
 
   def is_7mode?
-    if ! defined? @is_7mode
-      puts "7 MODE NOT CACHED, test required"
+    unless defined? @_is_7mode
       result = self.invoke_api 'system-get-info'
-      @is_7mode = result.results_status.eql? 'passed'
+      @_is_7mode = result.results_status.eql? 'passed'
     end
-    @is_7mode
+    @_is_7mode
   end
 
   def is_cluster?
-    if ! defined? @is_cluster
-      puts "CLUSTER NOT CACHED, test required"
-      if ! self.is_7mode?
-        @is_cluster = ((self.invoke_api 'system-node-get-iter').results_status.eql? 'passed')
-      else
-        @is_cluster = false
-      end
+    unless defined? @_is_cluster
+      @_is_cluster = if ! is_7mode?
+                       invoke_api('system-node-get-iter').results_status == 'passed'
+                     else
+                       false
+                     end
     end
-    @is_cluster
+    @_is_cluster
   end
 
+  def instance_type
+    if is_7mode?
+      :netapp_7mode_node
+    elsif is_cluster?
+      :netapp_cluster_vif
+    else 
+      :netapp_cluster_vserver
+    end
+  end
+
+  def self.create_instance(host, user, pass)
+    api_server = new(host, user, pass)
+    case api_server.instance_type
+    when :netapp_7mode_node
+      Netapp7modeNode.new host, user, pass
+    when :netapp_cluster_vif
+      NetappApiServer.new host, user, pass
+    when :netapp_cluster_vserver
+      NetappClusterVserver.new host, user, pass
+    else
+      api_server
+    end
+  end
+
+  class IncorrectApiTypeError < StandardError; end
 end
