@@ -1,0 +1,14 @@
+<h1>Test#view</h1>
+<p>Find me in app/views/test/view.html.erb</p>
+
+<ul>
+<%- @allVolsResults.each do |volumesDoc| -%>
+  <%- volumesDoc.css('volume-attributes').each do |volume| -%>
+    <li><%= volume.css('volume-id-attributes name').first.content%></li>
+  <%- end -%>
+<%- end -%>
+</ul>
+
+<pre>
+<%= @initialResponseXml %>
+</pre>
