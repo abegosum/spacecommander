@@ -35,6 +35,7 @@ class Netapp7modeNode < NetappApiServer
       current_aggregate.allocated = aggregate_element.child_get_int 'size-volume-allocated'
       current_aggregate.metadata_size = aggregate_element.child_get_int 'size-metadata'
       current_aggregate.asis_used = aggregate_element.child_get_int 'size-asis-used'
+      current_aggregate.size = aggregate_element.child_get_int 'size-nominal'
       volumes_element = aggregate_element.child_get('volumes')
       current_aggregate.volumes = get_volumes_from_volume_space_info_array_element volumes_element
       current_aggregate
