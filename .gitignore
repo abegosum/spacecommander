@@ -25,3 +25,4 @@
 vendor/bundle
 
 lib/netapp_sdk/*.rb
+config/netapp.yml
