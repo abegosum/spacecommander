@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Spacecommander</title>
+    <title><%= content_for?(:title) ? yield(:title) : "Spacecommander" %></title>
     <%= csrf_meta_tags %>
 
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
@@ -9,6 +9,15 @@
   </head>
 
   <body>
-    <%= yield %>
+    <%= render 'navigation_bar' %>
+    <div class="container">
+      <div class="row">
+        <%= yield %>
+      </div>
+      <footer> 
+        <p>&copy; Aaron M. Bond <%= Time.now.year %></p>
+      </footer>
+    
+    </div>
   </body>
 </html>
