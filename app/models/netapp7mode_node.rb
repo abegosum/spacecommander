@@ -1,11 +1,17 @@
 class Netapp7modeNode < NetappApiServer
   SNAPSHOT_BLOCK_SIZE = 1024
+  
+  attr_accessor :partner_name, :partner, :id, :name, :partner_id
 
   def initialize(host, init_user, init_pass)
     super
     unless is_7mode?
       raise IncorrectApiTypeError.new("#{host} appears not to be a 7-mode controller")
     end
+    self.name = get_name_from_system_info
+    self.id = get_id_from_system_info
+    self.partner_name = get_partner_name_from_system_info
+    self.partner_id = get_partner_id_from_system_info
   end
 
   def aggregates(force_refresh=false)
@@ -82,6 +88,26 @@ class Netapp7modeNode < NetappApiServer
     end
     invoke_api_or_fail 'volume-list-info-iter-end', 'tag', tag
     @_volume_info_element_array
+  end
+
+  def get_name_from_system_info
+    @_system_info_element ||= invoke_api_or_fail('system-get-info').child_get 'system-info'
+    @_system_info_element.child_get_string 'system-name'
+  end
+
+  def get_id_from_system_info
+    @_system_info_element ||= invoke_api_or_fail('system-get-info').child_get 'system-info'
+    @_system_info_element.child_get_string 'system-id'
+  end
+
+  def get_partner_name_from_system_info
+    @_system_info_element ||= invoke_api_or_fail('system-get-info').child_get 'system-info'
+    @_system_info_element.child_get_string 'partner-system-name'
+  end
+
+  def get_partner_id_from_system_info
+    @_system_info_element ||= invoke_api_or_fail('system-get-info').child_get 'system-info'
+    @_system_info_element.child_get_string 'partner-system-id'
   end
 
 end
