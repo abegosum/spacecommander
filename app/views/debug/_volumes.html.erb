@@ -1,0 +1,13 @@
+<li>Volumes:
+  <ul>
+    <%- node.volumes.each do |volume| -%>
+      <li><%= volume.name %>
+        <ul>
+          <li>Allocated: <%= volume.allocated %></li>
+          <li>Free: <%= volume.available %></li>
+          <li>Used: <%= volume.used %></li>
+        </ul>
+      </li>
+    <%- end -%>
+  </ul>
+</li>

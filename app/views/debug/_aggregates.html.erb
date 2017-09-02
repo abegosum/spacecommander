@@ -1,0 +1,13 @@
+<li>Aggregates:
+  <ul>
+    <%- node.aggregates.each do |aggregate| -%>
+      <li><%= aggregate.name %>
+        <ul>
+          <li>Allocated: <%= aggregate.size %></li>
+          <li>Free: <%= aggregate.free %></li>
+          <li>Used: <%= aggregate.used %></li>
+        </ul>
+      </li>
+    <%- end -%>
+  </ul>
+</li>

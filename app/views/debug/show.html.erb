@@ -1,0 +1,38 @@
+<h1>Debug#show</h1>
+
+<ul>
+  <li>Totals:
+    <ul>
+      <li>Physical Provisioned: <%= NetappEnvironment.totals.physical_provisioned %></li>
+      <li>Physical Used: <%= NetappEnvironment.totals.physical_used %></li>
+      <li>Physical Available: <%= NetappEnvironment.totals.physical_available %></li>
+      <li>Volume Provisioned: <%= NetappEnvironment.totals.volume_provisioned %></li>
+      <li>Volume Used: <%= NetappEnvironment.totals.volume_used %></li>
+      <li>Volume Available: <%= NetappEnvironment.totals.volume_available %></li>
+    </ul>
+  </li>
+  <li>Clusters:
+    <ul>
+      <%- NetappEnvironment.clusters.each do |cluster_host, cluster_vif| -%>
+        <li><%= cluster_host %>
+          <ul>
+            <%= render partial: 'aggregates', locals: {node: cluster_vif } %>
+            <%= render partial: 'vservers', locals: {cluster_vif: cluster_vif } %>
+          </ul>
+        </li>
+      <%- end -%>
+    </ul>
+  </li>
+  <li>7-mode Nodes:
+    <ul>
+      <%- NetappEnvironment.sevenmode_nodes.each do |node_host, node| -%>
+        <li><%= node_host %>
+          <ul>
+            <%= render partial: 'aggregates', locals: {node: node } %>
+            <%= render partial: 'volumes', locals: {node: node} %>
+          </ul>
+        </li>
+      <%- end -%>
+    </ul>
+  </li>
+</ul>

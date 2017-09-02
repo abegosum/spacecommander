@@ -1,0 +1,11 @@
+<li>Vservers
+  <ul>
+    <%- cluster_vif.vservers.each do |vserver_host, vserver| -%>
+      <li><%= vserver_host %>
+        <ul>
+          <%= render partial: 'volumes', locals: {node: vserver} %>
+        </ul>
+      </li>
+    <%- end -%>
+  </ul>
+</li>
