@@ -1,10 +1,14 @@
 class NetappClusterVif < NetappApiServer
 
+  attr_accessor :vservers, :nodes
+
   def initialize(host, init_user, init_pass)
     super
     unless is_cluster?
       raise IncorrectApiTypeError.new("#{host} appears not to be a cluster VIF and cannot be initialized")
     end
+    self.vservers = {}
+    self.nodes = {}
   end
 
   def aggregates(force_refresh=false)
