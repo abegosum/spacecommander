@@ -1,6 +1,7 @@
 # Class defining the environment as defined by
 # config/netapp.yml
 class NetappEnvironment
+
   def self.clusters
     @@_clusters ||= begin
                      clusters = {}
@@ -35,5 +36,84 @@ class NetappEnvironment
                              end
                              nodes
                            end
+  end
+
+  def self.totals
+    @@_totals ||= begin
+                    totals = Totals.new
+                    NetappEnvironment.clusters.each do |clustername, cluster| 
+
+                      cluster.aggregates.each do |aggregate|
+                        totals.physical_provisioned += aggregate.size
+                        totals.physical_used += aggregate.used
+                        totals.physical_available += aggregate.free
+                      end
+                    
+                      cluster.vservers.each do |vservername, vserver|
+                        vserver.volumes.each do |volume|
+                          totals.volume_provisioned += volume.allocated
+                          totals.volume_used += volume.used
+                          totals.volume_available += volume.available
+                        end
+                      end
+
+                    end
+
+                    NetappEnvironment.sevenmode_nodes.each do |nodename, node|
+
+                      node.aggregates.each do |aggregate|
+                        totals.physical_provisioned += aggregate.size
+                        totals.physical_used += aggregate.used
+                        totals.physical_available += aggregate.free
+                      end
+
+                      node.volumes.each do |volume|
+                        totals.volume_provisioned += volume.allocated
+                        totals.volume_used += volume.used
+                        totals.volume_available += volume.available
+                      end
+
+                    end
+                    
+                    totals
+                  end
+  end
+
+  def self.in_kb bytes
+    bytes / 1000
+  end
+
+  def self.in_mb bytes
+    (NetappEnvironment.in_kb bytes) / 1000
+  end
+
+  def self.in_gb bytes
+    (NetappEnvironment.in_mb bytes) / 1000
+  end
+
+  def self.in_tb bytes
+    (NetappEnvironment.in_gb bytes) / 1000
+  end
+
+  def self.in_pb bytes
+    (NetappEnvironment.in_tb bytes) / 1000
+  end
+
+  def self.reset_clusters
+    @@_clusters = nil
+  end
+
+  def self.reset_sevenmode_nodes
+    @@_sevenmode_nodes = nil
+  end
+
+  def self.reset_totals
+    @@_totals = nil
+  end
+
+  def self.reset_all_data
+    NetappEnvironment.reset_clusters
+    NetappEnvironment.reset_sevenmode_nodes
+    NetappEnvironment.reset_totals
   end
 end
