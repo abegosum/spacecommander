@@ -9,6 +9,7 @@ class NetappEnvironment
                       api_user = cluster_config['user']
                       password = cluster_config['password']
                       vservers = cluster_config['vservers']
+                      vservers = {} unless vservers
                       clusters[cluster_host] = NetappClusterVif.new cluster_host, api_user, password
                       vservers.each do |vserver_host, vserver_config|
                         api_user = vserver_config['user']

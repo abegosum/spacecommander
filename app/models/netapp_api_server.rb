@@ -11,6 +11,7 @@ class NetappApiServer
   DEFAULT_API_MINOR_VERSION = 20
   API_LOOP_LIMIT = 20
   LEGACY_API_MAX_RESULTS = 20
+  API_MISSING_ERRNO = 13005
 
   attr_accessor :host, :user, :pass, :server_type, :transport, :style, :port, :api_major_version, :api_minor_version
 
@@ -55,7 +56,14 @@ class NetappApiServer
   def is_7mode?
     unless defined? @_is_7mode
       result = self.invoke_api 'system-get-info'
-      @_is_7mode = result.results_status.eql? 'passed'
+      if result.results_status.eql? 'passed'
+        @_is_7mode = true
+      else 
+        @_is_7mode = false
+        unless result.results_errno.to_i == API_MISSING_ERRNO
+          raise RuntimeError.new "api call failed when determining 7 mode: #{result.results_reason}"
+        end
+      end
     end
     @_is_7mode
   end
