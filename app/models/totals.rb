@@ -1,6 +1,7 @@
 class Totals
+  extend Byteable
 
-  attr_accessor :physical_provisioned, :physical_used, :physical_available, :volume_provisioned, :volume_used, :volume_available
+  bytes_attr_accessor :physical_provisioned, :physical_used, :physical_available, :volume_provisioned, :volume_used, :volume_available
 
 
   def initialize
