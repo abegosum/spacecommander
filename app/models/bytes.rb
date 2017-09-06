@@ -37,7 +37,23 @@ class Bytes
     to_b
   end
 
+  def to_human_readable_s
+    result = @byte_size.to_s
+    if to_b <= CONVERSION_FACTOR
+      result = sprintf "%0.02f B", to_b
+    elsif to_mb <= CONVERSION_FACTOR
+      result = sprintf "%0.02f MB", to_mb
+    elsif to_gb <= CONVERSION_FACTOR
+      result = sprintf "%0.02f GB", to_gb
+    elsif to_tb <= CONVERSION_FACTOR
+      result = sprintf "%0.02f TB", to_tb
+    else
+      result = sprintf "%0.02f PB", to_pb
+    end
+    result
+  end
+
   def to_s
-    "#{to_b} bytes"
+    to_human_readable_s
   end
 end

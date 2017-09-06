@@ -53,17 +53,17 @@ class NetappApiServer
     response
   end
 
+  def version
+    @_version ||= begin
+                    system_version_element = get_system_version_element
+                    @_version = system_version_element.child_get_string 'version'
+                  end
+  end
+
   def is_7mode?
     unless defined? @_is_7mode
-      result = self.invoke_api 'system-get-info'
-      if result.results_status.eql? 'passed'
-        @_is_7mode = true
-      else 
-        @_is_7mode = false
-        unless result.results_errno.to_i == API_MISSING_ERRNO
-          raise RuntimeError.new "api call failed when determining 7 mode: #{result.results_reason}"
-        end
-      end
+      system_version_element = get_system_version_element
+      @_is_7mode = system_version_element.child_get_string('is-clustered') == 'false'
     end
     @_is_7mode
   end
@@ -104,4 +104,10 @@ class NetappApiServer
   end
 
   class IncorrectApiTypeError < StandardError; end
+
+  private
+  def get_system_version_element
+    @_system_version_element ||= self.invoke_api_or_fail 'system-get-version'
+  end
+
 end

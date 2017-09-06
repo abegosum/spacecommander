@@ -39,6 +39,25 @@ class NetappEnvironment
                           end
   end
 
+  def locations
+    @_locations ||= Rails.cache.fetch('locations', expires_in: 12.hours) do
+                      locations = {}
+                      Rails.configuration.netapp['clusters'].each do |host, config|
+                        if config['location']
+                          locations[config['location']] = {} unless locations[config['locations']]
+                          locations[config['location']][host] = clusters[host]
+                        end
+                      end
+                      Rails.configuration.netapp['sevenmode_nodes'].each do |host, config|
+                        if config['location']
+                          locations[config['location']] = {} unless locations[config['locations']]
+                          locations[config['location']][host] = sevenmode_nodes[host]
+                        end
+                      end
+                      locations
+                    end
+  end
+
   def totals
     @_totals ||= Totals.create_from_netapp_servers clusters, sevenmode_nodes
   end
