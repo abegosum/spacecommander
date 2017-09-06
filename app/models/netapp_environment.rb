@@ -2,8 +2,8 @@
 # config/netapp.yml
 class NetappEnvironment
 
-  def self.clusters
-    @_clusters ||= begin
+  def clusters
+    @_clusters ||= Rails.cache.fetch('clusters', expires_in: 12.hours) do
                     clusters = {}
                     Rails.configuration.netapp['clusters'].each do |cluster_host, cluster_config| 
                       api_user = cluster_config['user']
@@ -21,8 +21,8 @@ class NetappEnvironment
                   end
   end
   
-  def self.sevenmode_nodes
-    @_sevenmode_nodes ||= begin
+  def sevenmode_nodes
+    @_sevenmode_nodes ||= Rails.cache.fetch('sevenmode_nodes', expires_in: 12.hours) do 
                             nodes = {}
                             nodes_by_id = {}
                             Rails.configuration.netapp['sevenmode_nodes'].each do |node_host, node_config|
@@ -39,60 +39,23 @@ class NetappEnvironment
                           end
   end
 
-  def self.totals
-    @_totals ||= begin
-                   totals = Totals.new
-                   NetappEnvironment.clusters.each do |clustername, cluster| 
-
-                     cluster.aggregates.each do |aggregate|
-                       totals.physical_provisioned += aggregate.size
-                       totals.physical_used += aggregate.used
-                       totals.physical_available += aggregate.free
-                     end
-                   
-                     cluster.vservers.each do |vservername, vserver|
-                       vserver.volumes.each do |volume|
-                         totals.volume_provisioned += volume.allocated
-                         totals.volume_used += volume.used
-                         totals.volume_available += volume.available
-                       end
-                     end
-
-                   end
-
-                   NetappEnvironment.sevenmode_nodes.each do |nodename, node|
-
-                     node.aggregates.each do |aggregate|
-                       totals.physical_provisioned += aggregate.size
-                       totals.physical_used += aggregate.used
-                       totals.physical_available += aggregate.free
-                     end
-
-                     node.volumes.each do |volume|
-                       totals.volume_provisioned += volume.allocated
-                       totals.volume_used += volume.used
-                       totals.volume_available += volume.available
-                     end
-
-                   end
-                   
-                   totals
-                 end
+  def totals
+    @_totals ||= Totals.create_from_netapp_servers clusters, sevenmode_nodes
   end
 
-  def self.reset_clusters
+  def reset_clusters
     @_clusters = nil
   end
 
-  def self.reset_sevenmode_nodes
+  def reset_sevenmode_nodes
     @_sevenmode_nodes = nil
   end
 
-  def self.reset_totals
+  def reset_totals
     @_totals = nil
   end
 
-  def self.reset_all_data
+  def reset_all_data
     NetappEnvironment.reset_clusters
     NetappEnvironment.reset_sevenmode_nodes
     NetappEnvironment.reset_totals

@@ -1,5 +1,6 @@
 class DebugController < ApplicationController
   def show
+    @netapp_environment = NetappEnvironment.new
     @physical_totals_graph = {}
     NetappEnvironment.clusters.each do |host, vif|
       @physical_totals_graph[host] = 0
