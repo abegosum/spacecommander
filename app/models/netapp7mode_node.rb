@@ -68,6 +68,7 @@ class Netapp7modeNode < NetappApiServer
         current_volume.snapshot_reserve = snapshot_reserve_blocks * SNAPSHOT_BLOCK_SIZE
         current_volume.containing_aggregate_name = volume_info_element.child_get_string 'containing-aggregate' 
         current_volume.id = volume_info_element.child_get_string 'uuid'
+        current_volume.filer_host = host
         hsh[current_volume.name] = current_volume
         hsh
       end

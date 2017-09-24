@@ -3,7 +3,7 @@
 <div class="col-sm-12">
   <div class="row">
     <div class="col-sm-12">
-      <h1>Volume - <%= @filer.host %> - <%= @volume.name %></h1>
+      <h1>Volume - <%= @volume.filer_host %> - <%= @volume.name %></h1>
     </div>
   </div>
 
@@ -81,7 +81,7 @@
       Netapp Filer:
     </div>
     <div class="col-xs-10 data_value">
-      <%= @filer.host %>
+      <%= link_to @volume.filer_host, { :controller => 'filers', :action => 'view', :filername => @filer.host } %>
     </div>
   </div>
 

@@ -31,4 +31,8 @@ class VolumesController < ApplicationController
   def set_netapp_environment
     @netapp_environment = NetappEnvironment.new
   end
+
+  def set_volume
+    
+  end
 end

@@ -1,4 +1,12 @@
 Rails.application.routes.draw do
+  get 'aggregates/list'
+
+  get 'aggregates/view'
+
+  get 'filers/list'
+
+  get 'filers/:filername', to: 'filers#view', constraints: { filername: /[^\/]+/ }
+
   get 'volumes/list'
 
   get 'filers/:filername/volumes/:volumename', to: 'volumes#view', constraints: { filername: /[^\/]+/ }
