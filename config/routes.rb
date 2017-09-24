@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  get 'volumes/list'
+
+  get 'filers/:filername/volumes/:volumename', to: 'volumes#view', constraints: { filername: /[^\/]+/ }
+
   get 'debug/show'
 
   get 'test/view'

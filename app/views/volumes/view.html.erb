@@ -1,0 +1,107 @@
+
+
+<div class="col-sm-12">
+  <div class="row">
+    <div class="col-sm-12">
+      <h1>Volume - <%= @filer.host %> - <%= @volume.name %></h1>
+    </div>
+  </div>
+
+  <div class="row">
+
+    <div class="col-sm-6">
+      <%= pie_chart @volume_space_graph, donut: true %>
+    </div>
+
+    <div class="col-sm-6">
+
+      <div class="row">
+        <div class="col-xs-12">
+          <h2 class="subsection_heading">Volume Space Information</h2>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xs-6 data_label">
+          Allocated:
+        </div>
+        <div class="col-xs-6 data_value">
+          <%= @volume.allocated.to_human_readable_s %>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xs-6 data_label">
+          Snapshot Reserve:
+        </div>
+        <div class="col-xs-6 data_value">
+          <%= @volume.snapshot_reserve.to_human_readable_s %>
+        </div>
+      </div>
+      
+      <div class="row">
+        <div class="col-xs-6 data_label">
+          Used (Data):
+        </div>
+        <div class="col-xs-6 data_value">
+          <%= @volume.used.to_human_readable_s %>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xs-6 data_label">
+          Used (Snapshots):
+        </div>
+        <div class="col-xs-6 data_value">
+          <%= @volume.size_used_by_snapshots.to_human_readable_s %>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xs-6 data_label">
+          Free (Data):
+        </div>
+        <div class="col-xs-6 data_value">
+          <%= @volume.available.to_human_readable_s %>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="row">
+    <div class="col-xs-12">
+      <h2 class="subsection_heading">Volume Properties</h2>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xs-2 data_label">
+      Netapp Filer:
+    </div>
+    <div class="col-xs-10 data_value">
+      <%= @filer.host %>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xs-2 data_label">
+      Containing Aggregate:
+    </div>
+    <div class="col-xs-10 data_value">
+      <%= @volume.containing_aggregate_name %>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xs-2 data_label">
+      Id:
+    </div>
+    <div class="col-xs-10 data_value">
+      <%= @volume.id %>
+    </div>
+  </div>
+
+
+</div>

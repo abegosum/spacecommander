@@ -1,5 +1,5 @@
 class Bytes
-  CONVERSION_FACTOR = 1000.0
+  CONVERSION_FACTOR = 1024.0
 
   def initialize size
     @byte_size = size

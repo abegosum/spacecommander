@@ -58,6 +58,25 @@ class NetappEnvironment
                     end
   end
 
+  def find_filer_by_name(name)
+    result = nil
+    clusters.each do |hostname, cluster|
+      cluster.vservers.each do |vserverhostname, vserver| 
+        result = vserver if vserverhostname == name
+        break if result
+      end
+      break if result
+    end
+
+    unless result
+      sevenmode_nodes.each do |sevenmodehostname, filer|
+        result = filer if sevenmodehostname == name
+        break if result
+      end
+    end
+    result
+  end
+
   def totals
     @_totals ||= Totals.create_from_netapp_servers clusters, sevenmode_nodes
   end
