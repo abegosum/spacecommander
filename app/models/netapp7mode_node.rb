@@ -38,6 +38,46 @@ class Netapp7modeNode < NetappApiServer
     result
   end
 
+  def total_physical_space
+    @_total_physical_space ||= begin
+                                 space = Bytes.new(0)
+                                 aggregates.each do |aggregate|
+                                   space = space + aggregate.size
+                                 end
+                                 space
+                               end
+  end
+
+  def total_physical_free_space
+    @_total_physical_free_space ||= begin
+                                      space = Bytes.new(0)
+                                      aggregates.each do |aggregate|
+                                        space = space + aggregate.free
+                                      end
+                                      space
+                                    end
+  end
+
+  def total_physical_used_space
+    @_total_physical_used_space ||= begin
+                                      space = Bytes.new(0)
+                                      aggregates.each do |aggregate|
+                                        space = space + aggregate.used
+                                      end
+                                      space
+                                    end
+  end
+
+  def total_volume_space_allocated
+    @_total_volume_space_allocated ||= begin
+                                         space = Bytes.new(0)
+                                         volumes.each do |volume|
+                                           space = space + volume.allocated
+                                         end
+                                         space
+                                       end
+  end
+
   private
   def get_aggregates_from_aggr_space_info_array_element(aggregates_element)
     return [] unless aggregates_element

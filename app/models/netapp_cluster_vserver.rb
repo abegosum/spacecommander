@@ -43,6 +43,16 @@ class NetappClusterVserver < NetappApiServer
     result
   end
 
+  def total_volume_space_allocated
+    @_total_volume_space_allocated ||= begin
+                                         space = Bytes.new(0)
+                                         volumes.each do |volume|
+                                           space = space + volume.allocated
+                                         end
+                                         space
+                                       end
+  end
+
   private
   def get_volumes_from_volume_attributes_array_element(volumes_element)
     return [] unless volumes_element
