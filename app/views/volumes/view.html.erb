@@ -48,14 +48,16 @@
         </div>
       </div>
 
-      <div class="row">
-        <div class="col-xs-6 data_label">
-          Used (Snapshots):
+      <%- if @volume.size_used_by_snapshots -%>
+        <div class="row">
+          <div class="col-xs-6 data_label">
+            Used (Snapshots):
+          </div>
+          <div class="col-xs-6 data_value">
+            <%= @volume.size_used_by_snapshots.to_human_readable_s %>
+          </div>
         </div>
-        <div class="col-xs-6 data_value">
-          <%= @volume.size_used_by_snapshots.to_human_readable_s %>
-        </div>
-      </div>
+      <%- end -%>
 
       <div class="row">
         <div class="col-xs-6 data_label">
@@ -90,7 +92,10 @@
       Containing Aggregate:
     </div>
     <div class="col-xs-10 data_value">
-      <%= @volume.containing_aggregate_name %>
+      <%= @volume.containing_aggregate_name %> 
+      <%- if @volume.containing_aggregate_uuid -%>
+        (<%= link_to @volume.containing_aggregate_uuid, { :controller => 'aggregates', :action => 'view', :uuid => @volume.containing_aggregate_uuid } %>)
+      <%- end -%>
     </div>
   </div>
 

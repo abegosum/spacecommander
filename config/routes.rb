@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   get 'aggregates/list'
 
-  get 'aggregates/view'
+  get 'aggregates/:uuid', to: 'aggregates#view'
 
   get 'filers/list'
 
@@ -10,6 +10,8 @@ Rails.application.routes.draw do
   get 'volumes/list'
 
   get 'filers/:filername/volumes/:volumename', to: 'volumes#view', constraints: { filername: /[^\/]+/ }
+
+  get 'volumes/:id', to: 'volumes#view'
 
   get 'debug/show'
 

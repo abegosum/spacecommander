@@ -1,2 +1,84 @@
-<h1>Aggregates#view</h1>
-<p>Find me in app/views/aggregates/view.html.erb</p>
+<div class="col-sm-12">
+  <div class="row">
+    <div class="col-sm-12">
+      <h1>Aggregate - <%= @aggregate.node_host %> - <%= @aggregate.name %></h1>
+    </div>
+  </div>
+
+
+  <div class="row">
+
+    <div class="col-sm-6">
+      <%= pie_chart @aggregate_space_graph, donut: true %>
+    </div>
+    
+    <div class="col-sm-6">
+
+      <div class="row">
+        <div class="col-xs-12">
+          <h2 class="subsection_heading">Aggregate Space Information</h2>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xs-6 data_label">
+          Total:
+        </div>
+        <div class="col-xs-6 data_value">
+          <%= @aggregate.size.to_human_readable_s %>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xs-6 data_label">
+          Used:
+        </div>
+        <div class="col-xs-6 data_value">
+          <%= @aggregate.used.to_human_readable_s %>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xs-6 data_label">
+          Free:
+        </div>
+        <div class="col-xs-6 data_value">
+          <%= @aggregate.free.to_human_readable_s %>
+        </div>
+      </div>
+
+    </div>
+    
+  </div>
+
+  <div class="row">
+    <div class="col-xs-12">
+      <h2 class="subsection_heading">Aggregate Properties</h2>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xs-2 data_label">
+      Netapp Node:
+    </div>
+    <div class="col-xs-10 data_value">
+      <%= @aggregate.node_host %>
+    </div>
+  </div>
+
+  <%- if @aggregate.volume_names -%>
+    <div class="row">
+      <div class="col-xs-2 data_label">
+        Volumes:
+      </div>
+      <div class="col-xs-10 data_values">
+        <ul>
+          <%- @aggregate.volume_names.each do |volume| -%>
+            <li><%= volume %></li>
+          <%- end -%>
+        </ul>
+      </div>
+    </div>
+  <%- end -%>
+
+</div>

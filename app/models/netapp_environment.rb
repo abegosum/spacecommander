@@ -17,6 +17,7 @@ class NetappEnvironment
                         clusters[cluster_host].vservers[vserver_host] = NetappClusterVserver.new vserver_host, api_user, password
                       end
                     end
+                    populate_vserver_aggregate_volumes clusters
                     clusters
                   end
   end
@@ -77,6 +78,36 @@ class NetappEnvironment
     result
   end
 
+  def find_aggregate_by_uuid(uuid)
+    result = find_aggregate_by_uuid_in_clusterset uuid, clusters
+    sevenmode_nodes.each do |hostname, node|
+      node.aggregates.each do |aggregate|
+        result = aggregate if aggregate.id == uuid
+        break if result
+      end
+      break if result
+    end
+    result
+  end
+
+  def find_volume_by_id(id)
+    result = nil
+    clusters.each do |hostname, cluster|
+      cluster.vservers.each do |vserverhostname, vserver|
+        result = vserver.find_volume_by_id id
+        break if result
+      end
+    end
+
+    unless result
+      sevenmode_nodes.each do |sevenmodehostname, filer|
+        result = filer.find_volume_by_id id
+        break if result
+      end
+    end
+    result
+  end
+
   def totals
     @_totals ||= Totals.create_from_netapp_servers clusters, sevenmode_nodes
   end
@@ -97,5 +128,31 @@ class NetappEnvironment
     NetappEnvironment.reset_clusters
     NetappEnvironment.reset_sevenmode_nodes
     NetappEnvironment.reset_totals
+  end
+
+  private
+  def find_aggregate_by_uuid_in_clusterset(uuid, clusterset)
+    result = nil
+    clusterset.each do |hostname, cluster|
+      cluster.aggregates.each do |aggregate|
+        result = aggregate if aggregate.id == uuid
+        break if result
+      end
+      break if result
+    end
+    result
+  end
+
+  def populate_vserver_aggregate_volumes(clusterset)
+    clusterset.each do |hostname, cluster|
+      cluster.vservers.each do |vserverhostname, vserver| 
+        vserver.volumes.each do |volume|
+          current_aggregate = find_aggregate_by_uuid_in_clusterset volume.containing_aggregate_uuid, clusterset
+          current_aggregate.volume_names = [] unless current_aggregate.volume_names
+          current_aggregate.volume_names << volume.name
+          current_aggregate.volumes << volume
+        end
+      end
+    end
   end
 end

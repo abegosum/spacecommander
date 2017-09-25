@@ -1,8 +1,14 @@
 class Aggregate
   extend Byteable
   
-  attr_accessor :name, :volumes, :allocated, :metadata_size, :asis_used, :volume_used, :id
+  attr_accessor :name, :volume_names, :allocated, :metadata_size, :asis_used, :volume_used, :id, :node_host
+  attr_writer :volumes
   bytes_attr_accessor :size, :used, :free
+
+  def volumes
+    @volumes = [] unless @volumes
+    @volumes
+  end
 
   def self.create_from_aggr_attributes_element(aggr_attributes_element)
     aggr_space_attributes_element = aggr_attributes_element.child_get 'aggr-space-attributes'

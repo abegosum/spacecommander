@@ -29,6 +29,15 @@ class Netapp7modeNode < NetappApiServer
     hash.values
   end
 
+  def find_volume_by_id(id)
+    result = nil
+    volumes.each do |volume|
+      result = volume if volume.id == id
+      break if result
+    end
+    result
+  end
+
   private
   def get_aggregates_from_aggr_space_info_array_element(aggregates_element)
     return [] unless aggregates_element
@@ -43,7 +52,8 @@ class Netapp7modeNode < NetappApiServer
       current_aggregate.asis_used = aggregate_element.child_get_int 'size-asis-used'
       current_aggregate.size = aggregate_element.child_get_int 'size-nominal'
       volumes_element = aggregate_element.child_get('volumes')
-      current_aggregate.volumes = get_volumes_from_volume_space_info_array_element volumes_element
+      current_aggregate.volume_names = get_volumes_from_volume_space_info_array_element volumes_element
+      current_aggregate.node_host = host
       current_aggregate
     end
   end
@@ -70,6 +80,8 @@ class Netapp7modeNode < NetappApiServer
         current_volume.id = volume_info_element.child_get_string 'uuid'
         current_volume.filer_host = host
         hsh[current_volume.name] = current_volume
+        containing_aggregate = find_aggregate_by_name current_volume.containing_aggregate_name
+        containing_aggregate.volumes << current_volume if containing_aggregate
         hsh
       end
     end
@@ -109,6 +121,15 @@ class Netapp7modeNode < NetappApiServer
   def get_partner_id_from_system_info
     @_system_info_element ||= invoke_api_or_fail('system-get-info').child_get 'system-info'
     @_system_info_element.child_get_string 'partner-system-id'
+  end
+
+  def find_aggregate_by_name(aggregate_name)
+    result = nil
+    aggregates.each do |aggregate|
+      result = aggregate if aggregate.name == aggregate_name
+      break if result
+    end
+    result
   end
 
 end
