@@ -87,10 +87,10 @@
         </div>
       </div>
 
-      <%- (@aggregate.volumes.sort_by {|volume| volume.allocated.to_i}).reverse.each do |volume| -%>
+      <%- (@aggregate.volumes.sort_by {|volume| volume.allocated}).reverse.each do |volume| -%>
         <div class="row">
           <div class="col-xs-6 data_label">
-            <%= link_to volume.name, {controller: 'volumes', :action => 'view', :id => volume.id }  %>:
+            <%= link_to volume.name, volume_path(volume.id) %>:
           </div>
           <div class="col-xs-6 data_value">
             <%= volume.allocated.to_human_readable_s %>
@@ -112,6 +112,15 @@
     </div>
     <div class="col-xs-10 data_value">
       <%= @aggregate.node_host %>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xs-2 data_label">
+      Id:
+    </div>
+    <div class="col-xs-10 data_value">
+      <%= @aggregate.id %>
     </div>
   </div>
 

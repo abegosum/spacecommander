@@ -1,11 +1,11 @@
 class AggregatesController < ApplicationController
-  before_action :set_netapp_environment, only: [ :view ] # fire this callback before processing show action
-  before_action :set_aggregate, only: [ :view ] 
+  before_action :set_netapp_environment, only: [ :show ] # fire this callback before processing show action
+  before_action :set_aggregate, only: [ :show ] 
 
-  def list
+  def index
   end
 
-  def view
+  def show
     @aggregate_space_graph = {
       "used (#{@aggregate.used.to_human_readable_s})" => @aggregate.used.to_gb,
       "free (#{@aggregate.free.to_human_readable_s})" => @aggregate.free.to_gb,
@@ -25,14 +25,14 @@ class AggregatesController < ApplicationController
   end
 
   def set_aggregate
-    if params[:uuid]
-      @aggregate = get_aggregate_from_uuid
+    if params[:id]
+      @aggregate = get_aggregate_from_id
     end
   end
 
-  def get_aggregate_from_uuid
+  def get_aggregate_from_id
     set_netapp_environment
-    @netapp_environment.find_aggregate_by_uuid params[:uuid]
+    @netapp_environment.find_aggregate_by_uuid params[:id]
   end
 
 end

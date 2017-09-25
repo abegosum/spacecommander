@@ -148,6 +148,6 @@ class ChartHandler
       '#FFFFFF',
       '#F5F5F5',
       '#FFFF00',
-      '#9ACD32' ]
+      '#9ACD32' ].uniq
   end
 end

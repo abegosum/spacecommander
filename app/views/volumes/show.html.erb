@@ -83,7 +83,7 @@
       Netapp Filer:
     </div>
     <div class="col-xs-10 data_value">
-      <%= link_to @volume.filer_host, { :controller => 'filers', :action => 'view', :filername => @filer.host } %>
+      <%= link_to @volume.filer_host, filer_path(@filer.host) %>
     </div>
   </div>
 
@@ -94,7 +94,7 @@
     <div class="col-xs-10 data_value">
       <%= @volume.containing_aggregate_name %> 
       <%- if @volume.containing_aggregate_uuid -%>
-        (<%= link_to @volume.containing_aggregate_uuid, { :controller => 'aggregates', :action => 'view', :uuid => @volume.containing_aggregate_uuid } %>)
+        (<%= link_to @volume.containing_aggregate_uuid, aggregate_path(@volume.containing_aggregate_uuid) %>)
       <%- end -%>
     </div>
   </div>

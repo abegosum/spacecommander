@@ -78,6 +78,23 @@ class NetappEnvironment
     result
   end
 
+  def find_physical_owner_by_name(name)
+    result = nil
+
+    clusters.each do |hostname, cluster|
+      result = cluster if hostname == name
+      break if result
+    end
+
+    unless result
+      sevenmode_nodes.each do |sevenmodehostname, node|
+        result = node if sevenmodehostname == name
+        break if result
+      end
+    end
+    result
+  end
+
   def find_aggregate_by_uuid(uuid)
     result = find_aggregate_by_uuid_in_clusterset uuid, clusters
     sevenmode_nodes.each do |hostname, node|

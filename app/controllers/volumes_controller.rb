@@ -1,11 +1,11 @@
 class VolumesController < ApplicationController
-  before_action :set_netapp_environment, only: [ :view ] # fire this callback before processing show action
-  before_action :set_volume, only: [ :view ] # fire this callback before processing show action
+  before_action :set_netapp_environment, only: [ :show ] # fire this callback before processing show action
+  before_action :set_volume, only: [ :show ] # fire this callback before processing show action
 
-  def list
+  def index
   end
 
-  def view
+  def show
     @filer = @netapp_environment.find_filer_by_name @volume.filer_host
     used_gb_rounded = @volume.used.to_gb.round(2)
     available_gb_rounded = @volume.available.to_gb.round(2)
@@ -34,10 +34,10 @@ class VolumesController < ApplicationController
 
   def get_volume_from_filer_and_name
     set_netapp_environment
-    filer = @netapp_environment.find_filer_by_name params[:filername]
+    filer = @netapp_environment.find_filer_by_name params[:filer_name]
     selected_volume = nil
     filer.volumes.each do |volume|
-      selected_volume = volume if volume.name == params[:volumename]
+      selected_volume = volume if volume.name == params[:name]
       break if selected_volume
     end
     selected_volume

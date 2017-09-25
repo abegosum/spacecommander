@@ -1,17 +1,11 @@
 Rails.application.routes.draw do
-  get 'aggregates/list'
+  resources :aggregates, only: [:index, :show]
 
-  get 'aggregates/:uuid', to: 'aggregates#view'
+  resources :filers, only: [:index, :show], param: :name, constraints: { name: /[^\/]+/ } do
+    resources :volumes, only: [:index, :show], param: :name
+  end
 
-  get 'filers/list'
-
-  get 'filers/:filername', to: 'filers#view', constraints: { filername: /[^\/]+/ }
-
-  get 'volumes/list'
-
-  get 'filers/:filername/volumes/:volumename', to: 'volumes#view', constraints: { filername: /[^\/]+/ }
-
-  get 'volumes/:id', to: 'volumes#view'
+  resources :volumes, only: [:index, :show]
 
   get 'debug/show'
 

@@ -1,4 +1,6 @@
 class Bytes
+  include Comparable
+
   CONVERSION_FACTOR = 1024.0
 
   def initialize size
@@ -13,12 +15,8 @@ class Bytes
     self.class.new(@byte_size - val.to_i) #val may be bytes class, coerce to i
   end
 
-  def >(val)
-    @byte_size > val.to_i
-  end
-
-  def <(val)
-    @byte_size < val.to_i
+  def <=>(other)
+    to_i <=> other.to_i
   end
 
   def abs
@@ -55,13 +53,13 @@ class Bytes
 
   def to_human_readable_s
     result = @byte_size.to_s
-    if to_b <= CONVERSION_FACTOR
+    if to_b < CONVERSION_FACTOR
       result = sprintf "%0.02f B", to_b
-    elsif to_mb <= CONVERSION_FACTOR
+    elsif to_mb < CONVERSION_FACTOR
       result = sprintf "%0.02f MB", to_mb
-    elsif to_gb <= CONVERSION_FACTOR
+    elsif to_gb < CONVERSION_FACTOR
       result = sprintf "%0.02f GB", to_gb
-    elsif to_tb <= CONVERSION_FACTOR
+    elsif to_tb < CONVERSION_FACTOR
       result = sprintf "%0.02f TB", to_tb
     else
       result = sprintf "%0.02f PB", to_pb
