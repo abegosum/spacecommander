@@ -10,6 +10,16 @@ class Aggregate
     @volumes
   end
 
+  def total_volume_space_allocated
+    @_total_volume_space_allocated ||= begin
+                                         space = Bytes.new(0)
+                                         volumes.each do |volume|
+                                           space = space + volume.allocated
+                                         end
+                                         space
+                                       end
+  end
+
   def self.create_from_aggr_attributes_element(aggr_attributes_element)
     aggr_space_attributes_element = aggr_attributes_element.child_get 'aggr-space-attributes'
     current_aggregate = new

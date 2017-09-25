@@ -52,6 +52,55 @@
   </div>
 
   <div class="row">
+    <div class="col-sm-6">
+      <%= pie_chart @aggregate_volumes_space_graph, donut: true, legend: false, colors: ChartHandler.all_browser_colors %>
+    </div>
+
+    <div class="col-sm-6">
+      <div class="row">
+        <div class="col-xs-12">
+          <h2>Volume Provisioning:</h2>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xs-6 data_label">
+          Total Volume Space Allocated:
+        </div>
+        <div class="col-xs-6 data_value">
+          <%= @aggregate.total_volume_space_allocated %>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xs-6 data_label">
+          <%= @provision_label %>
+        </div>
+        <div class="col-xs-6 data_value">
+          <%= @provision_value %>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xs-12">
+          <h2>Space Allocated to Volumes</h2>
+        </div>
+      </div>
+
+      <%- (@aggregate.volumes.sort_by {|volume| volume.allocated.to_i}).reverse.each do |volume| -%>
+        <div class="row">
+          <div class="col-xs-6 data_label">
+            <%= link_to volume.name, {controller: 'volumes', :action => 'view', :id => volume.id }  %>:
+          </div>
+          <div class="col-xs-6 data_value">
+            <%= volume.allocated.to_human_readable_s %>
+          </div>
+        </div>
+      <%- end -%>
+    </div>
+  </div>
+
+  <div class="row">
     <div class="col-xs-12">
       <h2 class="subsection_heading">Aggregate Properties</h2>
     </div>
@@ -65,20 +114,5 @@
       <%= @aggregate.node_host %>
     </div>
   </div>
-
-  <%- if @aggregate.volumes -%>
-    <div class="row">
-      <div class="col-xs-2 data_label">
-        Volumes:
-      </div>
-      <div class="col-xs-10 data_values">
-        <ul>
-          <%- @aggregate.volumes.each do |volume| -%>
-            <li><%= volume.name %></li>
-          <%- end -%>
-        </ul>
-      </div>
-    </div>
-  <%- end -%>
 
 </div>

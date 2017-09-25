@@ -13,4 +13,5 @@ module Byteable
       end
     end
   end
+
 end

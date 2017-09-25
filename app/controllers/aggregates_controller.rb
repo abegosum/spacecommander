@@ -6,12 +6,17 @@ class AggregatesController < ApplicationController
   end
 
   def view
-    used_gb_rounded = @aggregate.used.to_gb.round(2)
-    free_gb_rounded = @aggregate.free.to_gb.round(2)
     @aggregate_space_graph = {
       "used (#{@aggregate.used.to_human_readable_s})" => @aggregate.used.to_gb,
       "free (#{@aggregate.free.to_human_readable_s})" => @aggregate.free.to_gb,
     }
+    @aggregate_volumes_space_graph = {}
+    @aggregate.volumes.each do |volume|
+      @aggregate_volumes_space_graph["#{volume.name} (#{volume.allocated.to_human_readable_s})"] = volume.allocated.to_gb
+    end
+    @provision_label = "Underprovisioned by:"
+    @provision_label = "Overprovisioned by:" unless @aggregate.total_volume_space_allocated < @aggregate.size
+    @provision_value = (@aggregate.size - @aggregate.total_volume_space_allocated).abs
   end
 
   private

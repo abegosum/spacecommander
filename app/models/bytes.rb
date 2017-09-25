@@ -9,6 +9,22 @@ class Bytes
     self.class.new(@byte_size + val.to_i) #val may be bytes class, coerce to i
   end
 
+  def -(val)
+    self.class.new(@byte_size - val.to_i) #val may be bytes class, coerce to i
+  end
+
+  def >(val)
+    @byte_size > val.to_i
+  end
+
+  def <(val)
+    @byte_size < val.to_i
+  end
+
+  def abs
+    self.class.new(@byte_size.abs)
+  end
+
   def to_b
     @byte_size
   end
