@@ -4,22 +4,22 @@ class NetappEnvironment
 
   def clusters
     @_clusters ||= Rails.cache.fetch('clusters', expires_in: 12.hours) do
-                    clusters = {}
-                    Rails.configuration.netapp['clusters'].each do |cluster_host, cluster_config| 
-                      api_user = cluster_config['user']
-                      password = cluster_config['password']
-                      vservers = cluster_config['vservers']
-                      vservers = {} unless vservers
-                      clusters[cluster_host] = NetappClusterVif.new cluster_host, api_user, password
-                      vservers.each do |vserver_host, vserver_config|
-                        api_user = vserver_config['user']
-                        password = vserver_config['password']
-                        clusters[cluster_host].vservers[vserver_host] = NetappClusterVserver.new vserver_host, api_user, password
-                      end
-                    end
-                    populate_vserver_aggregate_volumes clusters
-                    clusters
-                  end
+                     clusters = {}
+                     Rails.configuration.netapp['clusters'].each do |cluster_host, cluster_config| 
+                       api_user = cluster_config['user']
+                       password = cluster_config['password']
+                       vservers = cluster_config['vservers']
+                       vservers = {} unless vservers
+                       clusters[cluster_host] = NetappClusterVif.new cluster_host, api_user, password
+                       vservers.each do |vserver_host, vserver_config|
+                         api_user = vserver_config['user']
+                         password = vserver_config['password']
+                         clusters[cluster_host].vservers[vserver_host] = NetappClusterVserver.new vserver_host, api_user, password
+                       end
+                     end
+                     populate_vserver_aggregate_volumes clusters
+                     clusters
+                   end
   end
   
   def sevenmode_nodes

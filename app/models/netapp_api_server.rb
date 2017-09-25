@@ -40,7 +40,7 @@ class NetappApiServer
   end
 
   def invoke_api(method_name, *method_args)
-    puts "API CALL: #{method_name} (${host})"
+    puts "API CALL: #{method_name} ({#host})"
     response = na_server_instance.invoke(method_name, *method_args)
     response
   end
