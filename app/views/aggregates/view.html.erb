@@ -66,15 +66,15 @@
     </div>
   </div>
 
-  <%- if @aggregate.volume_names -%>
+  <%- if @aggregate.volumes -%>
     <div class="row">
       <div class="col-xs-2 data_label">
         Volumes:
       </div>
       <div class="col-xs-10 data_values">
         <ul>
-          <%- @aggregate.volume_names.each do |volume| -%>
-            <li><%= volume %></li>
+          <%- @aggregate.volumes.each do |volume| -%>
+            <li><%= volume.name %></li>
           <%- end -%>
         </ul>
       </div>

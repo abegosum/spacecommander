@@ -45,14 +45,15 @@ class Netapp7modeNode < NetappApiServer
       current_aggregate = Aggregate.new # TODO: Aggregate.create_from_aggr_space_info_element(element, volumes)
       current_aggregate.name = aggregate_element.child_get_string 'aggregate-name'
       current_aggregate.volume_used = aggregate_element.child_get_int 'size-volume-used'
-      current_aggregate.used = aggregate_element.child_get_int 'used'
+      current_aggregate.used = aggregate_element.child_get_int 'size-used'
       current_aggregate.free = aggregate_element.child_get_int 'size-free'
       current_aggregate.allocated = aggregate_element.child_get_int 'size-volume-allocated'
       current_aggregate.metadata_size = aggregate_element.child_get_int 'size-metadata'
       current_aggregate.asis_used = aggregate_element.child_get_int 'size-asis-used'
       current_aggregate.size = aggregate_element.child_get_int 'size-nominal'
+      current_aggregate.id = aggregate_id_hash[current_aggregate.name]
       volumes_element = aggregate_element.child_get('volumes')
-      current_aggregate.volume_names = get_volumes_from_volume_space_info_array_element volumes_element
+      current_aggregate.volumes = get_volumes_from_volume_space_info_array_element volumes_element
       current_aggregate.node_host = host
       current_aggregate
     end
@@ -77,6 +78,7 @@ class Netapp7modeNode < NetappApiServer
         snapshot_reserve_blocks = volume_info_element.child_get_int 'snapshot-blocks-reserve'
         current_volume.snapshot_reserve = snapshot_reserve_blocks * SNAPSHOT_BLOCK_SIZE
         current_volume.containing_aggregate_name = volume_info_element.child_get_string 'containing-aggregate' 
+        current_volume.containing_aggregate_uuid = aggregate_id_hash[current_volume.containing_aggregate_name]
         current_volume.id = volume_info_element.child_get_string 'uuid'
         current_volume.filer_host = host
         hsh[current_volume.name] = current_volume
@@ -101,6 +103,21 @@ class Netapp7modeNode < NetappApiServer
     end
     invoke_api_or_fail 'volume-list-info-iter-end', 'tag', tag
     @_volume_info_element_array
+  end
+
+  def aggregate_id_hash
+    @_aggregate_id_hash ||= begin
+                                result = {}
+                                get_info_api_result = invoke_api_or_fail 'aggr-list-info'
+                                aggr_infos_element = get_info_api_result.child_get 'aggregates'
+                                if aggr_infos_element
+                                  aggr_infos_element.children_get.each do |info_element|
+                                    aggr_name = info_element.child_get_string 'name'
+                                    result[aggr_name] = info_element.child_get_string 'uuid'
+                                  end
+                                end
+                                result
+                              end
   end
 
   def get_name_from_system_info
