@@ -1,6 +1,7 @@
 class NodesController < ApplicationController
+  include NetappEnvironmentConsumer
+
   before_action :set_physical_manager, only: [ :show ] # fire this callback before processing show action
-  before_action :set_netapp_environment, only: [ :show ] # fire this callback before processing show action
   def index
   end
 
@@ -16,12 +17,8 @@ class NodesController < ApplicationController
   end
 
   private
-  def set_netapp_environment
-    @netapp_environment = NetappEnvironment.new unless @netapp_environment
-  end
 
   def set_physical_manager
-    set_netapp_environment
-    @physical_manager = @netapp_environment.find_physical_manager_by_name params[:name]
+    @physical_manager = netapp_environment.find_physical_manager_by_name params[:name]
   end
 end

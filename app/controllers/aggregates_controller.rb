@@ -1,5 +1,6 @@
 class AggregatesController < ApplicationController
-  before_action :set_netapp_environment, only: [ :show ] # fire this callback before processing show action
+  include NetappEnvironmentConsumer
+
   before_action :set_aggregate, only: [ :show ] 
 
   def index
@@ -20,10 +21,6 @@ class AggregatesController < ApplicationController
   end
 
   private
-  def set_netapp_environment
-    @netapp_environment = NetappEnvironment.new unless @netapp_environment
-  end
-
   def set_aggregate
     if params[:id]
       @aggregate = get_aggregate_from_id
@@ -33,14 +30,12 @@ class AggregatesController < ApplicationController
   end
 
   def get_aggregate_from_node_and_name
-    set_netapp_environment
-    physical_manager = @netapp_environment.find_physical_manager_by_name params[:node_name]
+    physical_manager = netapp_environment.find_physical_manager_by_name params[:node_name]
     physical_manager.find_aggregate_by_name params[:name]
   end
 
   def get_aggregate_from_id
-    set_netapp_environment
-    @netapp_environment.find_aggregate_by_uuid params[:id]
+    netapp_environment.find_aggregate_by_uuid params[:id]
   end
 
 end

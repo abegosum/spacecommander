@@ -1,6 +1,7 @@
 class FilersController < ApplicationController
+  include NetappEnvironmentConsumer
+
   before_action :set_filer, only: [ :show ] # fire this callback before processing show action
-  before_action :set_netapp_environment, only: [ :show ] # fire this callback before processing show action
 
   def index
   end
@@ -20,12 +21,7 @@ class FilersController < ApplicationController
   end
 
   private
-  def set_netapp_environment
-    @netapp_environment = NetappEnvironment.new unless @netapp_environment
-  end
-
   def set_filer
-    set_netapp_environment
-    @filer = @netapp_environment.find_filer_by_name params[:name]
+    @filer = netapp_environment.find_filer_by_name params[:name]
   end
 end
