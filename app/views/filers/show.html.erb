@@ -121,6 +121,14 @@
         <%= link_to @filer.partner.host, filer_path(@filer.partner.host) %>
       </div>
     </div>
+    <div class="row">
+      <div class="col-xs-2 data_label">
+        Model:
+      </div>
+      <div class="col-xs-10 data_value">
+        <%= @filer.model %>
+      </div>
+    </div>
   <%- end -%>
     
 </div>

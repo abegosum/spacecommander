@@ -3,7 +3,7 @@ class Netapp7modeNode < NetappApiServer
 
   SNAPSHOT_BLOCK_SIZE = 1024
   
-  attr_accessor :partner_name, :partner, :id, :name, :partner_id
+  attr_accessor :partner_name, :partner, :id, :name, :partner_id, :model
 
   def initialize(host, init_user, init_pass)
     super
@@ -14,6 +14,7 @@ class Netapp7modeNode < NetappApiServer
     self.id = get_id_from_system_info
     self.partner_name = get_partner_name_from_system_info
     self.partner_id = get_partner_id_from_system_info
+    self.model = get_model_from_system_info
   end
 
   def aggregates(force_refresh=false)
@@ -140,6 +141,11 @@ class Netapp7modeNode < NetappApiServer
   def get_partner_id_from_system_info
     @_system_info_element ||= invoke_api_or_fail('system-get-info').child_get 'system-info'
     @_system_info_element.child_get_string 'partner-system-id'
+  end
+
+  def get_model_from_system_info
+    @_system_info_element ||= invoke_api_or_fail('system-get-info').child_get 'system-info'
+    @_system_info_element.child_get_string 'system-model'
   end
 
   def find_aggregate_by_name(aggregate_name)
