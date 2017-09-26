@@ -76,6 +76,31 @@
       <%- end -%>
     </div>
   </div>
-    
+
+  <!-- Physical Node List -->
+  <div class="row">
+    <div class="col-sm-12">
+      <h3>Clusters</h3>
+    </div>
+  </div>
+  <%- @cluster_vifs.values.each do |cluster| -%>
+    <div class="row">
+      <div class="col-sm-12">
+        <h4><%= link_to cluster.host, node_path(cluster.host) %></h4>
+      </div>
+    </div>
+  <%- end -%>
+  <div class="row">
+    <div class="col-sm-12">
+      <h3>7-Mode Nodes</h3>
+    </div>
+  </div>
+    <%- @sevenmode_nodes.values.each do |node| -%>
+      <div class="row">
+        <div class="col-sm-12">
+          <h4><%= link_to node.host, node_path(node.host) %></h4>
+        </div>
+      </div>
+    <%- end -%>
   <!-- PHYSICL END -->
 </div>
