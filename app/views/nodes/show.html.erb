@@ -77,6 +77,47 @@
 
   </div>
 
+  <div class="row">
+    <div class="col-xs-12">
+      <h2 class="subsection_heading">Node Properties</h2>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xs-2 data_label">
+      Filers:
+    </div>
+    <div class="col-xs-10 data_value">
+      <ul>
+        <%- if @physical_manager.is_7mode? -%>
+          <li><%= link_to @physical_manager.host, filer_path(@physical_manager.host) %></li>
+        <%- else -%>
+          <%- @physical_manager.vservers.keys.each do |vserverhostname| -%>
+            <li><%= link_to vserverhostname, filer_path(vserverhostname) %></li>
+          <%- end -%>
+        <%- end -%>
+      </ul>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xs-2 data_label">
+      Id:
+    </div>
+    <div class="col-xs-10 data_value">
+      <%= @physical_manager.id %>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xs-2 data_label">
+      Is 7 Mode:
+    </div>
+    <div class="col-xs-10 data_value">
+      <%= @physical_manager.is_7mode?.to_s %>
+    </div>
+  </div>
+  
 
 
 </div>

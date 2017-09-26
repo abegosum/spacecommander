@@ -30,6 +30,10 @@ class NetappClusterVif < NetappApiServer
     @_aggregates
   end
 
+  def id
+    @_id ||= get_cluster_identity_info_element.child_get_string('cluster-uuid')
+  end
+
   private
   def get_aggregates_from_aggr_attributes_array_element(aggregate_list_element)
     return [] unless aggregate_list_element
@@ -38,6 +42,10 @@ class NetappClusterVif < NetappApiServer
       current_aggregate.node_host = host
       current_aggregate
     end
+  end
+
+  def get_cluster_identity_info_element
+    @_vserver_info_element ||= invoke_api_or_fail('cluster-identity-get').child_get('attributes').child_get('cluster-identity-info')
   end
 
 end
