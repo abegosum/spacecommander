@@ -13,7 +13,7 @@ class NetappApiServer
   LEGACY_API_MAX_RESULTS = 20
   API_MISSING_ERRNO = 13005
 
-  attr_accessor :host, :user, :pass, :server_type, :transport, :style, :port, :api_major_version, :api_minor_version
+  attr_accessor :host, :user, :pass, :server_type, :transport, :style, :port, :api_major_version, :api_minor_version, :location
 
   def initialize host, init_user, init_pass
     self.host = host
@@ -40,7 +40,7 @@ class NetappApiServer
   end
 
   def invoke_api(method_name, *method_args)
-    puts "API CALL: #{method_name} ({#host})"
+    puts "API CALL: #{method_name} (#{host})"
     response = na_server_instance.invoke(method_name, *method_args)
     response
   end

@@ -1,0 +1,81 @@
+<div class="col-sm-12">
+  <div class="row">
+    <div class="col-sm-12">
+      <h1>Location - <%= @location %></h1>
+    </div>
+  </div>
+
+  <!-- PHYSICL START -->
+  <!-- All physical roll-up -->
+  <div class="row">
+    <div class="col-sm-12">
+      <h2>Physical Summary</h2>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-6">
+      <%= pie_chart @physical_summary_graph, donut: true %>
+    </div>
+    <div class="col-sm-6">
+      <div class="row">
+        <div class="col-xs-12">
+          <h2>Physical Space Information</h2>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xs-6 data_label">
+          Total:
+        </div>
+        <div class="col-xs-6 data_value">
+          <%= @total_physical_size %>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xs-6 data_label">
+          Used:
+      </div>
+        <div class="col-xs-6 data_value">
+          <%= @total_physical_used %>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xs-6 data_label">
+          Free:
+      </div>
+        <div class="col-xs-6 data_value">
+          <%= @total_physical_free %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Aggregate roll-up -->
+  <div class="row">
+    <div class="col-sm-6">
+      <%= pie_chart @aggregate_sizes, donut: true, legend: (@all_aggregates.count <= 5) %>
+    </div>
+    <div class="col-sm-6">
+      <div class="row">
+        <div class="col-xs-12">
+          <h2>Aggregate Size Information</h2>
+        </div>
+      </div>
+
+      <%- (@all_aggregates.sort_by{|aggregate| aggregate.size}).reverse.each_with_index do |aggregate, index|-%>
+        <div class="row<%- unless index % 2 == 0 -%> zebra_odd<%-end-%>">
+          <div class="col-xs-6 data_label">
+            <%= link_to aggregate.name, aggregate_path(aggregate.id) %> (<%= link_to aggregate.node_host, node_path(aggregate.node_host) %>)
+          </div>
+          <div class="col-xs-6 data_value">
+            <%= aggregate.size.to_human_readable_s %>
+          </div>
+        </div>
+      <%- end -%>
+    </div>
+  </div>
+    
+  <!-- PHYSICL END -->
+</div>

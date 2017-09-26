@@ -29,4 +29,22 @@ class MenuStructure
                    nodes
                  end
   end
+
+  def self.locations
+    @@_locations ||= begin
+                       locations = []
+                       Rails.configuration.netapp['clusters'].each do |host, config|
+                         if config['location']
+                           locations << config['location']
+                         end
+                       end
+                       Rails.configuration.netapp['sevenmode_nodes'].each do |host, config|
+                         if config['location']
+                           locations << config['location']
+                         end
+                       end
+                       locations.uniq.sort
+                     end
+  end
+
 end

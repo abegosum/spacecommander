@@ -11,6 +11,7 @@ class NetappEnvironment
                        vservers = cluster_config['vservers']
                        vservers = {} unless vservers
                        clusters[cluster_host] = NetappClusterVif.new cluster_host, api_user, password
+                       clusters[cluster_host].location = cluster_config['location'] if cluster_config['location']
                        vservers.each do |vserver_host, vserver_config|
                          api_user = vserver_config['user']
                          password = vserver_config['password']
@@ -30,6 +31,7 @@ class NetappEnvironment
                               api_user = node_config['user']
                               password = node_config['password']
                               node = Netapp7modeNode.new node_host, api_user, password
+                              node.location = node_config['location'] if node_config['location']
                               nodes[node_host] = node
                               nodes_by_id[node.id] = node
                             end
