@@ -6,6 +6,13 @@ class FilersController < ApplicationController
   end
 
   def show
+    @filer_volume_overview_space_graph = {
+      "used (#{@filer.total_volume_space_used.to_human_readable_s})" => @filer.total_volume_space_used.to_gb,
+      "free (#{@filer.total_volume_space_free.to_human_readable_s})" => @filer.total_volume_space_free.to_gb,
+    }
+    unless @filer.total_volume_space_snapshot_reserve == 0
+      @filer_volume_overview_space_graph["snap reserve (#{@filer.total_volume_space_snapshot_reserve.to_human_readable_s})"] = @filer.total_volume_space_snapshot_reserve.to_gb
+    end
     @filer_volumes_space_graph = {}
     @filer.volumes.each do |volume|
       @filer_volumes_space_graph["#{volume.name} (#{volume.allocated.to_human_readable_s})"] = volume.allocated.to_gb

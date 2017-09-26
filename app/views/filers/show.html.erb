@@ -6,6 +6,59 @@
   </div>
 
   <div class="row">
+    <div class="col-sm-6">
+      <%= pie_chart @filer_volume_overview_space_graph, donut: true %>
+    </div>
+
+    <div class="col-sm-6">
+      <div class="row">
+        <div class="col-xs-12">
+          <h2>Volume Provisioning</h2>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xs-6 data_label">
+          Total Volume Allocated:
+        </div>
+        <div class="col-xs-6 data_value">
+          <%= @filer.total_volume_space_allocated %>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xs-6 data_label">
+          Total Volume Snapshot Reserve:
+        </div>
+        <div class="col-xs-6 data_value">
+          <%= @filer.total_volume_space_snapshot_reserve %>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xs-6 data_label">
+          Total Volume Used (Data):
+      </div>
+        <div class="col-xs-6 data_value">
+          <%= @filer.total_volume_space_used %>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xs-6 data_label">
+          Total Volume Free (Data):
+      </div>
+        <div class="col-xs-6 data_value">
+          <%= @filer.total_volume_space_free %>
+        </div>
+      </div>
+      
+    </div>
+
+  </div>
+
+
+  <div class="row">
 
     <div class="col-sm-6">
       <%= pie_chart @filer_volumes_space_graph, donut: true, legend: false, colors: ChartHandler.all_browser_colors %>
@@ -13,20 +66,6 @@
 
     <div class="col-sm-6">
       
-      <div class="row">
-        <div class="col-xs-12">
-          <h2>Volume Provisioning:</h2>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col-xs-6 data_label">
-          Total Volume Space Allocated:
-        </div>
-        <div class="col-xs-6 data_value">
-          <%= @filer.total_volume_space_allocated %>
-        </div>
-      </div>
 
       <div class="row">
         <div class="col-xs-12">

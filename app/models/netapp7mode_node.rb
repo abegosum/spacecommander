@@ -78,6 +78,36 @@ class Netapp7modeNode < NetappApiServer
                                        end
   end
 
+  def total_volume_space_used
+    @_total_volume_space_used ||= begin
+                                    space = Bytes.new(0)
+                                    volumes.each do |volume|
+                                      space = space + volume.used
+                                    end
+                                    space
+                                  end
+  end
+
+  def total_volume_space_snapshot_reserve 
+    @_total_volume_space_snapshot_reserve ||= begin
+                                    space = Bytes.new(0)
+                                    volumes.each do |volume|
+                                      space = space + volume.snapshot_reserve
+                                    end
+                                    space
+                                  end
+  end
+
+  def total_volume_space_free
+    @_total_volume_space_free ||= begin
+                                    space = Bytes.new(0)
+                                    volumes.each do |volume|
+                                      space = space + volume.available
+                                    end
+                                    space
+                                  end
+  end
+
   private
   def get_aggregates_from_aggr_space_info_array_element(aggregates_element)
     return [] unless aggregates_element
@@ -115,7 +145,7 @@ class Netapp7modeNode < NetappApiServer
         current_volume.allocated = volume_info_element.child_get_int 'filesystem-size'
         current_volume.used = volume_info_element.child_get_int 'size-used'
         current_volume.available = volume_info_element.child_get_int 'size-available'
-        snapshot_reserve_blocks = volume_info_element.child_get_int 'snapshot-blocks-reserve'
+        snapshot_reserve_blocks = volume_info_element.child_get_int 'snapshot-blocks-reserved'
         current_volume.snapshot_reserve = snapshot_reserve_blocks * SNAPSHOT_BLOCK_SIZE
         current_volume.containing_aggregate_name = volume_info_element.child_get_string 'containing-aggregate' 
         current_volume.containing_aggregate_uuid = aggregate_id_hash[current_volume.containing_aggregate_name]
