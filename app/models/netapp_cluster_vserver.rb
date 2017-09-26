@@ -11,6 +11,10 @@ class NetappClusterVserver < NetappApiServer
     end
   end
 
+  def id
+    @_id ||= get_vserver_info_element.child_get_string 'uuid'
+  end
+
   def aggregate_names
     volumes.map(&:containing_aggregate_name).uniq
   end
@@ -63,6 +67,10 @@ class NetappClusterVserver < NetappApiServer
       current_volume.filer_host = host
       current_volume
     end 
+  end
+
+  def get_vserver_info_element
+    @_vserver_info_element ||= invoke_api_or_fail('vserver-get').child_get('attributes').child_get('vserver-info')
   end
 
 end
