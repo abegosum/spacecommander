@@ -39,15 +39,6 @@ class NetappClusterVserver < NetappApiServer
     @_volumes
   end
 
-  def find_volume_by_id(id)
-    result = nil
-    volumes.each do |volume|
-      result = volume if volume.id == id
-      break if result
-    end
-    result
-  end
-
   private
   def get_volumes_from_volume_attributes_array_element(volumes_element)
     return [] unless volumes_element

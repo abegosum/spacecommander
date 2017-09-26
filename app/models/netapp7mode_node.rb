@@ -32,15 +32,6 @@ class Netapp7modeNode < NetappApiServer
     hash.values
   end
 
-  def find_volume_by_id(id)
-    result = nil
-    volumes.each do |volume|
-      result = volume if volume.id == id
-      break if result
-    end
-    result
-  end
-
   private
   def get_aggregates_from_aggr_space_info_array_element(aggregates_element)
     return [] unless aggregates_element

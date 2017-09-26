@@ -27,7 +27,15 @@ class AggregatesController < ApplicationController
   def set_aggregate
     if params[:id]
       @aggregate = get_aggregate_from_id
+    else
+      @aggregate = get_aggregate_from_node_and_name
     end
+  end
+
+  def get_aggregate_from_node_and_name
+    set_netapp_environment
+    physical_manager = @netapp_environment.find_physical_manager_by_name params[:node_name]
+    physical_manager.find_aggregate_by_name params[:name]
   end
 
   def get_aggregate_from_id

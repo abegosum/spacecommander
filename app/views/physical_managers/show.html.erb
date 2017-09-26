@@ -1,0 +1,82 @@
+<div class="col-sm-12">
+  <div class="row">
+    <div class="col-sm-12">
+      <h1>Physical - <%= @physical_manager.host %></h1>
+    </div>
+  </div>
+
+
+  <div class="row">
+    <div class="col-sm-6">
+      <%= pie_chart @physical_overview_space_graph, donut: true %>
+    </div>
+    <div class="col-sm-6">
+      <div class="row">
+        <div class="col-xs-12">
+          <h2>Physical Space Information</h2>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xs-6 data_label">
+          Total:
+        </div>
+        <div class="col-xs-6 data_value">
+          <%= @physical_manager.total_physical_space %>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xs-6 data_label">
+          Used:
+      </div>
+        <div class="col-xs-6 data_value">
+          <%= @physical_manager.total_physical_space_used %>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xs-6 data_label">
+          Free:
+      </div>
+        <div class="col-xs-6 data_value">
+          <%= @physical_manager.total_physical_space_free %>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+
+  <div class="row">
+
+    <div class="col-sm-6">
+      <%= pie_chart @aggregates_space_graph, donut: true, legend: false %>
+    </div>
+    <div class="col-sm-6">
+      
+
+      <div class="row">
+        <div class="col-xs-12">
+          <h2>Aggregate Sizes:</h2>
+        </div>
+      </div>
+
+      <%- (@physical_manager.aggregates.sort_by {|aggregate| aggregate.size}).reverse.each_with_index do |aggregate, index| -%>
+        <div class="row<%- unless index % 2 == 0 -%> zebra_odd<%-end-%>">
+          <div class="col-xs-6 data_label">
+            <%= link_to aggregate.name, aggregate_path(aggregate.id) %>:
+          </div>
+          <div class="col-xs-6 data_value">
+            <%= aggregate.size.to_human_readable_s %>
+          </div>
+        </div>
+      <%- end -%>
+
+
+    </div>
+
+  </div>
+
+
+
+</div>

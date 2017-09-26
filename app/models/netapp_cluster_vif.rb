@@ -1,4 +1,5 @@
 class NetappClusterVif < NetappApiServer
+  include PhysicalManager
 
   attr_accessor :vservers, :nodes
 

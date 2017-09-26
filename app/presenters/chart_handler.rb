@@ -1,15 +1,19 @@
 class ChartHandler
 
+  def self.shuffle_browser_colors
+    all_browser_colors.shuffle
+  end
+
   def self.all_browser_colors
-    [ '#F0F8FF',
+    [ #'#F0F8FF',
       '#FAEBD7',
       '#00FFFF',
       '#7FFFD4',
-      '#F0FFFF',
-      '#F5F5DC',
-      '#FFE4C4',
-      '#000000',
-      '#FFEBCD',
+#      '#F0FFFF',
+#      '#F5F5DC',
+#      '#FFE4C4',
+#      '#000000',
+#      '#FFEBCD',
       '#0000FF',
       '#8A2BE2',
       '#A52A2A',

@@ -39,4 +39,22 @@ module Filer
                                   end
   end
 
+  def find_volume_by_id(id)
+    result = nil
+    volumes.each do |volume|
+      result = volume if volume.id == id
+      break if result
+    end
+    result
+  end
+
+  def find_volume_by_name(name)
+    result = nil
+    volumes.each do |volume|
+      result = volume if volume.name == name
+      break if result
+    end
+    result
+  end
+
 end

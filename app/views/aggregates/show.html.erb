@@ -108,10 +108,10 @@
 
   <div class="row">
     <div class="col-xs-2 data_label">
-      Netapp Node:
+      Managing Node:
     </div>
     <div class="col-xs-10 data_value">
-      <%= @aggregate.node_host %>
+      <%= link_to @aggregate.node_host, node_path(@aggregate.node_host) %>
     </div>
   </div>
 

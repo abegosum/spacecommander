@@ -78,7 +78,7 @@ class NetappEnvironment
     result
   end
 
-  def find_physical_owner_by_name(name)
+  def find_physical_manager_by_name(name)
     result = nil
 
     clusters.each do |hostname, cluster|

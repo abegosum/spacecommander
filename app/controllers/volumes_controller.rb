@@ -35,12 +35,7 @@ class VolumesController < ApplicationController
   def get_volume_from_filer_and_name
     set_netapp_environment
     filer = @netapp_environment.find_filer_by_name params[:filer_name]
-    selected_volume = nil
-    filer.volumes.each do |volume|
-      selected_volume = volume if volume.name == params[:name]
-      break if selected_volume
-    end
-    selected_volume
+    filer.find_volume_by_name params[:name]
   end
 
   def get_volume_from_id
