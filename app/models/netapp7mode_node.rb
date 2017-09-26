@@ -1,4 +1,6 @@
 class Netapp7modeNode < NetappApiServer
+  include Filer, PhysicalManager
+
   SNAPSHOT_BLOCK_SIZE = 1024
   
   attr_accessor :partner_name, :partner, :id, :name, :partner_id
@@ -36,76 +38,6 @@ class Netapp7modeNode < NetappApiServer
       break if result
     end
     result
-  end
-
-  def total_physical_space
-    @_total_physical_space ||= begin
-                                 space = Bytes.new(0)
-                                 aggregates.each do |aggregate|
-                                   space = space + aggregate.size
-                                 end
-                                 space
-                               end
-  end
-
-  def total_physical_free_space
-    @_total_physical_free_space ||= begin
-                                      space = Bytes.new(0)
-                                      aggregates.each do |aggregate|
-                                        space = space + aggregate.free
-                                      end
-                                      space
-                                    end
-  end
-
-  def total_physical_used_space
-    @_total_physical_used_space ||= begin
-                                      space = Bytes.new(0)
-                                      aggregates.each do |aggregate|
-                                        space = space + aggregate.used
-                                      end
-                                      space
-                                    end
-  end
-
-  def total_volume_space_allocated
-    @_total_volume_space_allocated ||= begin
-                                         space = Bytes.new(0)
-                                         volumes.each do |volume|
-                                           space = space + volume.allocated
-                                         end
-                                         space
-                                       end
-  end
-
-  def total_volume_space_used
-    @_total_volume_space_used ||= begin
-                                    space = Bytes.new(0)
-                                    volumes.each do |volume|
-                                      space = space + volume.used
-                                    end
-                                    space
-                                  end
-  end
-
-  def total_volume_space_snapshot_reserve 
-    @_total_volume_space_snapshot_reserve ||= begin
-                                    space = Bytes.new(0)
-                                    volumes.each do |volume|
-                                      space = space + volume.snapshot_reserve
-                                    end
-                                    space
-                                  end
-  end
-
-  def total_volume_space_free
-    @_total_volume_space_free ||= begin
-                                    space = Bytes.new(0)
-                                    volumes.each do |volume|
-                                      space = space + volume.available
-                                    end
-                                    space
-                                  end
   end
 
   private
