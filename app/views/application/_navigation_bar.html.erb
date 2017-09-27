@@ -1,50 +1,56 @@
 <nav class="navbar navbar-default navbar-static-top">
-  <div class="navbar-header">
-    <a class="navbar-brand" href="/">
-      Spacecommander
-    </a>
+  <div class="container">
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+    <div class="navbar-header">
+      <a class="navbar-brand" href="/">
+        Spacecommander
+      </a>
+    </div>
+
+    <div class="navbar-collapse collapse navbar-responsive-collapse">
+      <ul class="nav navbar-nav">
+
+        <li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+            Locations
+            <span class="caret"></span>
+          </a>
+          <ul class="dropdown-menu">
+            <%- MenuStructure.locations.each do |location| -%>
+              <li><%= link_to location, location_path(location) %></li>
+            <%-end -%>
+          </ul>
+        </li>
+
+        <li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+            Nodes (Physical View)
+            <span class="caret"></span>
+          </a>
+          <ul class="dropdown-menu">
+            <%- MenuStructure.nodes.each do |node| -%>
+              <li><%= link_to node, node_path(node) %></li>
+            <%- end -%>
+          </ul>
+        </li>
+
+        <li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+            Filers (Logical View)
+            <span class="caret"></span>
+          </a>
+          <ul class="dropdown-menu">
+            <%- MenuStructure.filers.each do |filer| -%>
+              <li><%= link_to filer, filer_path(filer) %></li>
+            <%- end -%>
+          </ul>
+        </li>
+      </ul>
+
+    </div>
   </div>
-
-  <div class="navbar-collapse collapse navbar-responsive-collapse">
-    <ul class="nav navbar-nav">
-
-      <li class="dropdown">
-        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-          Locations
-          <span class="caret"></span>
-        </a>
-        <ul class="dropdown-menu">
-          <%- MenuStructure.locations.each do |location| -%>
-            <li><%= link_to location, location_path(location) %></li>
-          <%-end -%>
-        </ul>
-      </li>
-
-      <li class="dropdown">
-        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-          Nodes (Physical View)
-          <span class="caret"></span>
-        </a>
-        <ul class="dropdown-menu">
-          <%- MenuStructure.nodes.each do |node| -%>
-            <li><%= link_to node, node_path(node) %></li>
-          <%- end -%>
-        </ul>
-      </li>
-
-      <li class="dropdown">
-        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-          Filers (Logical View)
-          <span class="caret"></span>
-        </a>
-        <ul class="dropdown-menu">
-          <%- MenuStructure.filers.each do |filer| -%>
-            <li><%= link_to filer, filer_path(filer) %></li>
-          <%- end -%>
-        </ul>
-      </li>
-    </ul>
-
-  </div>
-
 </nav>
