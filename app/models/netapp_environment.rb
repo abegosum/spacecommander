@@ -60,6 +60,8 @@ class NetappEnvironment
                         end
                       end
                       locations.each do |name, location|
+                        location['clusters'] = {} unless location['clusters']
+                        location['sevenmode_nodes'] = {} unless location['sevenmode_nodes']
                         location['totals'] = Totals.create_from_netapp_servers location['clusters'], location['sevenmode_nodes']
                       end
                       locations

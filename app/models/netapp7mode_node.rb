@@ -139,13 +139,4 @@ class Netapp7modeNode < NetappApiServer
     @_system_info_element.child_get_string 'system-model'
   end
 
-  def find_aggregate_by_name(aggregate_name)
-    result = nil
-    aggregates.each do |aggregate|
-      result = aggregate if aggregate.name == aggregate_name
-      break if result
-    end
-    result
-  end
-
 end
