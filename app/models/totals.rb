@@ -1,7 +1,7 @@
 class Totals
   extend Byteable
 
-  bytes_attr_accessor :physical_provisioned, :physical_used, :physical_available, :volume_provisioned, :volume_used, :volume_available
+  bytes_attr_accessor :physical_provisioned, :physical_used, :physical_available, :volume_provisioned, :volume_used, :volume_available, :volume_snapshot_reserve
 
   def initialize
     self.physical_provisioned = 0
@@ -10,6 +10,7 @@ class Totals
     self.volume_provisioned = 0
     self.volume_used = 0
     self.volume_available = 0
+    self.volume_snapshot_reserve = 0
   end
 
   def self.create_from_netapp_servers clusters, sevenmode_nodes
@@ -31,6 +32,7 @@ class Totals
           totals.volume_provisioned += volume.allocated
           totals.volume_used += volume.used
           totals.volume_available += volume.available
+          totals.volume_snapshot_reserve += volume.snapshot_reserve
         end
       end
     
@@ -48,6 +50,7 @@ class Totals
         totals.volume_provisioned += volume.allocated
         totals.volume_used += volume.used
         totals.volume_available += volume.available
+        totals.volume_snapshot_reserve += volume.snapshot_reserve
       end
     
     end

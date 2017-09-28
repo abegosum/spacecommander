@@ -18,13 +18,12 @@ class Netapp7modeNode < NetappApiServer
   end
 
   def aggregates(force_refresh=false)
-    if !@_aggregates || force_refresh
-      @_aggregates = []
-      api_result = invoke_api_or_fail 'aggr-space-list-info'
-      aggregates_element = api_result.child_get('aggregates')
-      @_aggregates = get_aggregates_from_aggr_space_info_array_element aggregates_element
-    end
-    @_aggregates
+    @_aggregates = nil if force_refresh
+    @_aggregates ||= begin
+                       api_result = invoke_api_or_fail 'aggr-space-list-info'
+                       aggregates_element = api_result.child_get('aggregates')
+                       get_aggregates_from_aggr_space_info_array_element aggregates_element
+                     end
   end
 
   def volumes(force_refresh=false)
@@ -76,27 +75,27 @@ class Netapp7modeNode < NetappApiServer
         current_volume.id = volume_info_element.child_get_string 'uuid'
         current_volume.filer_host = host
         hsh[current_volume.name] = current_volume
-        containing_aggregate = find_aggregate_by_name current_volume.containing_aggregate_name
-        containing_aggregate.volumes << current_volume if containing_aggregate
         hsh
       end
     end
   end
 
   def get_volume_info_element_array 
-    @_volume_info_element_array = []
-    start_api_result = invoke_api_or_fail 'volume-list-info-iter-start'
-    tag = start_api_result.child_get_string 'tag'
-    records = start_api_result.child_get_int 'records'
-    while records > 0 && (loop_iter ||= 0) < API_LOOP_LIMIT
-      api_result = invoke_api_or_fail 'volume-list-info-iter-next', 'tag', tag, 'maximum', LEGACY_API_MAX_RESULTS
-      records = api_result.child_get_int 'records'
-      volumes_element = api_result.child_get 'volumes'
-      @_volume_info_element_array.concat volumes_element.children_get if volumes_element
-      loop_iter += 1
-    end
-    invoke_api_or_fail 'volume-list-info-iter-end', 'tag', tag
-    @_volume_info_element_array
+    @_volume_info_element_array ||= begin
+                                      volume_info_element_array = []
+                                      start_api_result = invoke_api_or_fail 'volume-list-info-iter-start'
+                                      tag = start_api_result.child_get_string 'tag'
+                                      records = start_api_result.child_get_int 'records'
+                                      while records > 0 && (loop_iter ||= 0) < API_LOOP_LIMIT
+                                        api_result = invoke_api_or_fail 'volume-list-info-iter-next', 'tag', tag, 'maximum', LEGACY_API_MAX_RESULTS
+                                        records = api_result.child_get_int 'records'
+                                        volumes_element = api_result.child_get 'volumes'
+                                        volume_info_element_array.concat volumes_element.children_get if volumes_element
+                                        loop_iter += 1
+                                      end
+                                      invoke_api_or_fail 'volume-list-info-iter-end', 'tag', tag
+                                      volume_info_element_array
+                                    end
   end
 
   def aggregate_id_hash

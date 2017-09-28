@@ -43,7 +43,7 @@ class LocationsController < ApplicationController
   def set_location_logical_totals
     location_totals = netapp_environment.locations[params[:name]]['totals']
     @total_volume_allocated ||= location_totals.volume_provisioned
-    @total_volume_snapshot_reserve ||= Bytes.new 0 #TODO: fix this!
+    @total_volume_snapshot_reserve ||= location_totals.volume_snapshot_reserve
     @total_volume_data_used ||= location_totals.volume_used
     @total_volume_data_free ||= location_totals.volume_available
   end
