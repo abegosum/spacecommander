@@ -22,7 +22,7 @@ class LocationsController < ApplicationController
     @logical_summary_graph = {
       "used data (#{@total_volume_data_used.to_human_readable_s})" => @total_volume_data_used.to_gb,
       "free data (#{@total_volume_data_free.to_human_readable_s})" => @total_volume_data_free.to_gb,
-      "snapshot_reserve (#{@total_volume_data_free.to_human_readable_s})" => @total_volume_data_free.to_gb
+      "snapshot_reserve (#{@total_volume_snapshot_reserve.to_human_readable_s})" => @total_volume_snapshot_reserve.to_gb
     }
   end
 
@@ -30,7 +30,10 @@ class LocationsController < ApplicationController
   def set_and_sort_nodes
     @cluster_vifs = netapp_environment.locations[params[:name]]['clusters']
     @sevenmode_nodes = netapp_environment.locations[params[:name]]['sevenmode_nodes']
-    @ha_pairs = []
+    @filers = @sevenmode_nodes.clone
+    @cluster_vifs.values.each do |cluster|
+      @filers.merge!(cluster.vservers)
+    end
   end
 
   def set_location_physical_totals

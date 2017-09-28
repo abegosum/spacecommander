@@ -78,11 +78,13 @@
   </div>
 
   <!-- Physical Node List -->
-  <div class="row">
-    <div class="col-sm-12">
-      <h3>Clusters</h3>
+  <%- if @cluster_vifs.values.count > 0 -%>
+    <div class="row">
+      <div class="col-sm-12">
+        <h3>Clusters</h3>
+      </div>
     </div>
-  </div>
+  <%- end -%>
   <%- @cluster_vifs.values.each do |cluster| -%>
     <div class="row">
       <div class="col-sm-12">
@@ -126,11 +128,13 @@
       </div>
     </div>
   <%- end -%>
-  <div class="row">
-    <div class="col-sm-12">
-      <h3>7-Mode Nodes</h3>
+  <%- if @sevenmode_nodes.values.count > 0 -%>
+    <div class="row">
+      <div class="col-sm-12">
+        <h3>7-Mode Nodes</h3>
+      </div>
     </div>
-  </div>
+  <%- end -%>
   <%- @sevenmode_nodes.values.each do |node| -%>
     <div class="row">
       <div class="col-sm-12">
@@ -175,4 +179,123 @@
     </div>
   <%- end -%>
   <!-- PHYSICL END -->
+
+
+  <!-- Logical Roll Up-->
+  <div class="row">
+    <div class="col-sm-12">
+      <h2>Logical Summary</h2>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-6">
+      <%= pie_chart @logical_summary_graph, donut: true %>
+    </div>
+    <div class="col-sm-6">
+      <div class="row">
+        <div class="col-xs-12">
+          <h2>Volume Space Information</h2>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xs-6 data_label">
+          Total Allocated to Volumes:
+        </div>
+        <div class="col-xs-6 data_value">
+          <%= @total_volume_allocated %>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xs-6 data_label">
+          Total Snapshot Reserve:
+        </div>
+        <div class="col-xs-6 data_value">
+          <%= @total_volume_snapshot_reserve %>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xs-6 data_label">
+          Total Used Space in Volumes (Data):
+      </div>
+        <div class="col-xs-6 data_value">
+          <%= @total_volume_data_used %>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xs-6 data_label">
+          Total Free Space in Volumes (Data):
+      </div>
+        <div class="col-xs-6 data_value">
+          <%= @total_volume_data_free %>
+        </div>
+      </div>
+    </div>
+  </div>
+  <%- if @filers.values.count > 0 -%>
+    <div class="row">
+      <div class="col-sm-12">
+        <h3>Filers</h3>
+      </div>
+    </div>
+  <%- end -%>
+  <%- @filers.values.each do |filer| -%>
+    <div class="row">
+      <div class="col-sm-12">
+        <h4><%= link_to filer.host, filer_path(filer.host) %><%- if filer.is_7mode? -%> (7-mode)<%- end -%></h4>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-6">
+        <%= pie_chart charts_filer_virtual_show_path(filer.host) %>
+      </div>
+      <div class="col-sm-6">
+        <div class="row">
+          <div class="col-xs-12">
+            <h5><%= filer.host %> Volume Space Information</h5>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-xs-6 data_label">
+            Total Volume Allocated:
+          </div>
+          <div class="col-xs-6 data_value">
+            <%= filer.total_volume_space_allocated %>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-xs-6 data_label">
+            Total Volume Snapshot Reserve:
+          </div>
+          <div class="col-xs-6 data_value">
+            <%= filer.total_volume_space_snapshot_reserve %>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-xs-6 data_label">
+            Total Volume Used (Data):
+        </div>
+          <div class="col-xs-6 data_value">
+            <%= filer.total_volume_space_used %>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-xs-6 data_label">
+          Total Volume Free (Data):
+          </div>
+          <div class="col-xs-6 data_value">
+            <%= filer.total_volume_space_free %>
+          </div>
+        </div>
+      </div>
+    </div>
+  <%- end -%>
+  <!-- LOGICAL END -->
 </div>
