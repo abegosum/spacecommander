@@ -123,6 +123,7 @@ class NetappEnvironment
         result = vserver.find_volume_by_id id
         break if result
       end
+      break if result
     end
 
     unless result
