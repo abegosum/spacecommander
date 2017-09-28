@@ -11,12 +11,13 @@ class LocationsController < ApplicationController
     set_location_physical_totals
     set_location_logical_totals
     set_all_aggregates
+    set_all_volumes
     @physical_summary_graph = {
       "used (#{@total_physical_used.to_human_readable_s})" => @total_physical_used.to_gb,
       "free (#{@total_physical_free.to_human_readable_s})" => @total_physical_used.to_gb
     }
     @aggregate_sizes = { }
-    @all_aggregates.each do |aggregate|
+    (@all_aggregates.sort_by{|aggregate| aggregate.size}).reverse.each do |aggregate|
       @aggregate_sizes["#{aggregate.name} (#{aggregate.size.to_human_readable_s})"] = aggregate.size.to_gb
     end
     @logical_summary_graph = {
@@ -24,6 +25,10 @@ class LocationsController < ApplicationController
       "free data (#{@total_volume_data_free.to_human_readable_s})" => @total_volume_data_free.to_gb,
       "snapshot_reserve (#{@total_volume_snapshot_reserve.to_human_readable_s})" => @total_volume_snapshot_reserve.to_gb
     }
+    @volume_sizes = { }
+    (@all_volumes.sort_by{|volume| volume.allocated}).reverse.each do |volume|
+      @volume_sizes["#{volume.name} (#{volume.allocated.to_human_readable_s})"] = volume.allocated.to_gb
+    end
   end
 
   private
@@ -65,6 +70,24 @@ class LocationsController < ApplicationController
                           aggregates
                         end
   end
+
+  def set_all_volumes
+    clusters = netapp_environment.locations[params[:name]]['clusters']
+    sevenmode_nodes = netapp_environment.locations[params[:name]]['sevenmode_nodes']
+    @all_volumes ||= begin
+                       volumes = []
+                       clusters.values.each do |cluster_vif|
+                         cluster_vif.vservers.values.each do |vserver|
+                           volumes.concat vserver.volumes
+                         end
+                       end
+                       sevenmode_nodes.values.each do |node|
+                         volumes.concat node.volumes
+                       end
+                       volumes
+                     end
+  end
+
 
   def set_location
     @location = params[:name]

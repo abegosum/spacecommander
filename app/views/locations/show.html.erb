@@ -235,6 +235,32 @@
       </div>
     </div>
   </div>
+  <%- if @all_volumes.count > 0 -%>
+    <div class="row">
+      <div class="col-sm-6">
+        <%= pie_chart @volume_sizes, donut: true, legend: (@all_volumes.count <= 5), colors: ChartHandler.all_browser_colors %>
+      </div>
+      <div class="col-sm-6">
+        <div class="row">
+          <div class="col-xs-12">
+            <h2>Volume Size Information</h2>
+          </div>
+        </div>
+
+        <%- (@all_volumes.sort_by{|volume| volume.allocated}).reverse.each_with_index do |volume, index|-%>
+          <div class="row<%- unless index % 2 == 0 -%> zebra_odd<%-end-%>">
+            <div class="col-xs-6 data_label">
+              <%= link_to volume.name, volume_path(volume.id) %> (<%= link_to volume.containing_aggregate_name, aggregate_path(volume.containing_aggregate_uuid) %>)
+            </div>
+            <div class="col-xs-6 data_value">
+              <%= volume.allocated.to_human_readable_s %>
+            </div>
+          </div>
+        <%- end -%>
+      </div>
+
+    </div>
+  <%- end -%>
   <%- if @filers.values.count > 0 -%>
     <div class="row">
       <div class="col-sm-12">
