@@ -54,7 +54,6 @@
     </div>
     <div class="col-sm-6">
       
-
       <div class="row">
         <div class="col-xs-12">
           <h2>Aggregate Sizes:</h2>
@@ -71,6 +70,30 @@
           </div>
         </div>
       <%- end -%>
+      <div class="row">
+        <div class="col-xs-12">
+          <h2>Volume Provisioning:</h2>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xs-6 data_label">
+          Total Volume Space Allocated:
+        </div>
+        <div class="col-xs-6 data_value">
+          <%= @physical_manager.total_volume_space_allocated %>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xs-6 data_label">
+          <%= @provision_label %>
+        </div>
+        <div class="col-xs-6 data_value">
+          <%= @provision_value %>
+        </div>
+      </div>
+
 
 
     </div>

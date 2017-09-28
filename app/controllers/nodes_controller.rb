@@ -11,9 +11,12 @@ class NodesController < ApplicationController
       "free (#{@physical_manager.total_physical_space_free.to_human_readable_s})" => @physical_manager.total_physical_space_free.to_gb,
     }
     @aggregates_space_graph = {}
-    @physical_manager.aggregates.each do |aggregate|
+    (@physical_manager.aggregates.sort_by{|aggregate|aggregate.size}).reverse.each do |aggregate|
       @aggregates_space_graph["#{aggregate.name} (#{aggregate.size})"] = aggregate.size.to_gb
     end
+    @provision_label = "Underprovisioned by:"
+    @provision_label = "Overprovisioned by:" unless @physical_manager.total_volume_space_allocated < @physical_manager.total_physical_space
+    @provision_value = (@physical_manager.total_physical_space - @physical_manager.total_volume_space_allocated).abs
   end
 
   private
@@ -21,4 +24,5 @@ class NodesController < ApplicationController
   def set_physical_manager
     @physical_manager = netapp_environment.find_physical_manager_by_name params[:name]
   end
+
 end

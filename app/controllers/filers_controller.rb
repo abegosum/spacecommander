@@ -15,7 +15,7 @@ class FilersController < ApplicationController
       @filer_volume_overview_space_graph["snap reserve (#{@filer.total_volume_space_snapshot_reserve.to_human_readable_s})"] = @filer.total_volume_space_snapshot_reserve.to_gb
     end
     @filer_volumes_space_graph = {}
-    @filer.volumes.each do |volume|
+    (@filer.volumes.sort_by{|volume|volume.allocated}).reverse.each do |volume|
       @filer_volumes_space_graph["#{volume.name} (#{volume.allocated.to_human_readable_s})"] = volume.allocated.to_gb
     end
   end

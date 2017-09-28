@@ -12,7 +12,7 @@ class AggregatesController < ApplicationController
       "free (#{@aggregate.free.to_human_readable_s})" => @aggregate.free.to_gb,
     }
     @aggregate_volumes_space_graph = {}
-    @aggregate.volumes.each do |volume|
+    (@aggregate.volumes.sort_by{|volume|volume.allocated}).reverse.each do |volume|
       @aggregate_volumes_space_graph["#{volume.name} (#{volume.allocated.to_human_readable_s})"] = volume.allocated.to_gb
     end
     @provision_label = "Underprovisioned by:"
