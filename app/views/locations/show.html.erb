@@ -19,7 +19,7 @@
     <div class="col-sm-6">
       <div class="row">
         <div class="col-xs-12">
-          <h2>Physical Space Information</h2>
+          <h3>Physical Space Information</h3>
         </div>
       </div>
 
@@ -49,6 +49,29 @@
           <%= @total_physical_free %>
         </div>
       </div>
+      <div class="row">
+        <div class="col-xs-12">
+          <h3>Volume Provisioning</h3>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xs-6 data_label">
+          Total Volume Space Allocated:
+        </div>
+        <div class="col-xs-6 data_value">
+          <%= @total_volume_space_allocated %>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xs-6 data_label">
+          <%= @provision_label %>
+        </div>
+        <div class="col-xs-6 data_value">
+          <%= @provision_value %>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -60,7 +83,7 @@
     <div class="col-sm-6">
       <div class="row">
         <div class="col-xs-12">
-          <h2>Aggregate Size Information</h2>
+          <h3>Aggregate Size Information</h3>
         </div>
       </div>
 
@@ -194,7 +217,7 @@
     <div class="col-sm-6">
       <div class="row">
         <div class="col-xs-12">
-          <h2>Volume Space Information</h2>
+          <h3>Volume Space Information</h3>
         </div>
       </div>
 
@@ -243,7 +266,7 @@
       <div class="col-sm-6">
         <div class="row">
           <div class="col-xs-12">
-            <h2>Volume Size Information</h2>
+            <h3>Volume Size Information</h3>
           </div>
         </div>
 

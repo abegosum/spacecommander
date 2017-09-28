@@ -29,6 +29,9 @@ class LocationsController < ApplicationController
     (@all_volumes.sort_by{|volume| volume.allocated}).reverse.each do |volume|
       @volume_sizes["#{volume.name} (#{volume.allocated.to_human_readable_s})"] = volume.allocated.to_gb
     end
+    @provision_label = "Underprovisioned by:"
+    @provision_label = "Overprovisioned by:" unless @total_volume_allocated < @total_physical_size
+    @provision_value = (@total_physical_size - @total_volume_allocated).abs
   end
 
   private
