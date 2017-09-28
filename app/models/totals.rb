@@ -15,6 +15,9 @@ class Totals
   def self.create_from_netapp_servers clusters, sevenmode_nodes
 
     totals = new
+    clusters = {} unless clusters
+    sevenmode_nodes = {} unless sevenmode_nodes
+    
     clusters.each do |clustername, cluster| 
     
       cluster.aggregates.each do |aggregate|

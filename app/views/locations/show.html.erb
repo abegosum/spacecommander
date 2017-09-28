@@ -89,18 +89,90 @@
         <h4><%= link_to cluster.host, node_path(cluster.host) %></h4>
       </div>
     </div>
+    <div class="row">
+      <div class="col-sm-6">
+        <%= pie_chart charts_node_physical_show_path(cluster.host) %>
+      </div>
+      <div class="col-sm-6">
+        <div class="row">
+          <div class="col-xs-12">
+            <h5><%= cluster.host %> Size Information</h5>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-6 data_label">
+            Total:
+          </div>
+          <div class="col-xs-6 data_value">
+            <%= cluster.total_physical_space %>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-6 data_label">
+            Used:
+          </div>
+          <div class="col-xs-6 data_value">
+            <%= cluster.total_physical_space_used %>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-6 data_label">
+            Free:
+          </div>
+          <div class="col-xs-6 data_value">
+            <%= cluster.total_physical_space_free %>
+          </div>
+        </div>
+      </div>
+    </div>
   <%- end -%>
   <div class="row">
     <div class="col-sm-12">
       <h3>7-Mode Nodes</h3>
     </div>
   </div>
-    <%- @sevenmode_nodes.values.each do |node| -%>
-      <div class="row">
-        <div class="col-sm-12">
-          <h4><%= link_to node.host, node_path(node.host) %></h4>
+  <%- @sevenmode_nodes.values.each do |node| -%>
+    <div class="row">
+      <div class="col-sm-12">
+        <h4><%= link_to node.host, node_path(node.host) %></h4>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-6">
+        <%= pie_chart charts_node_physical_show_path(node.host) %>
+      </div>
+      <div class="col-sm-6">
+        <div class="row">
+          <div class="col-xs-12">
+            <h5><%= node.host %> Size Information</h5>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-6 data_label">
+            Total:
+          </div>
+          <div class="col-xs-6 data_value">
+            <%= node.total_physical_space %>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-6 data_label">
+            Used:
+          </div>
+          <div class="col-xs-6 data_value">
+            <%= node.total_physical_space_used %>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-6 data_label">
+            Free:
+          </div>
+          <div class="col-xs-6 data_value">
+            <%= node.total_physical_space_free %>
+          </div>
         </div>
       </div>
-    <%- end -%>
+    </div>
+  <%- end -%>
   <!-- PHYSICL END -->
 </div>

@@ -47,15 +47,20 @@ class NetappEnvironment
                       locations = {}
                       Rails.configuration.netapp['clusters'].each do |host, config|
                         if config['location']
-                          locations[config['location']] = {} unless locations[config['locations']]
-                          locations[config['location']][host] = clusters[host]
+                          locations[config['location']] = {} unless locations[config['location']]
+                          locations[config['location']]['clusters'] = {} unless locations[config['location']]['clusters']
+                          locations[config['location']]['clusters'][host] = clusters[host]
                         end
                       end
                       Rails.configuration.netapp['sevenmode_nodes'].each do |host, config|
                         if config['location']
-                          locations[config['location']] = {} unless locations[config['locations']]
-                          locations[config['location']][host] = sevenmode_nodes[host]
+                          locations[config['location']] = {} unless locations[config['location']]
+                          locations[config['location']]['sevenmode_nodes'] = {} unless locations[config['location']]['sevenmode_nodes']
+                          locations[config['location']]['sevenmode_nodes'][host] = sevenmode_nodes[host]
                         end
+                      end
+                      locations.each do |name, location|
+                        location['totals'] = Totals.create_from_netapp_servers location['clusters'], location['sevenmode_nodes']
                       end
                       locations
                     end
