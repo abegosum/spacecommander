@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  root 'locations#index'
+
   get 'charts/node_physical_show/:name', to: 'charts#node_physical_show', constraints: { name: /[^\/]+/ }, as: 'charts_node_physical_show'
 
   get 'charts/filer_virtual_show/:name', to: 'charts#filer_virtual_show', constraints: { name: /[^\/]+/ }, as: 'charts_filer_virtual_show'

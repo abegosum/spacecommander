@@ -5,6 +5,20 @@ class LocationsController < ApplicationController
   before_action :set_location, only: [:show]
 
   def index
+    @locations = netapp_environment.locations
+    @location_charts = {}
+    netapp_environment.locations.each do |location_name, location_config|
+      totals = location_config['totals']
+      current_chart = {}
+      provision_label = 'under-provisioned by'
+      provision_label = 'over-provisioned by' unless totals.physical_provisioned > totals.volume_provisioned
+      remaining_allocated = totals.volume_provisioned - totals.volume_used
+      provision_value = (totals.physical_provisioned - totals.volume_provisioned).abs
+      current_chart["used (#{totals.volume_used.to_human_readable_s})"] = totals.volume_used.to_gb
+      current_chart["remaining allocated space (#{remaining_allocated.to_human_readable_s})"] = remaining_allocated.to_gb
+      current_chart["#{provision_label} (#{provision_value.to_human_readable_s})"] = provision_value.to_gb
+      @location_charts[location_name] = current_chart
+    end
   end
 
   def show
