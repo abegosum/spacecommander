@@ -13,8 +13,28 @@
           </div>
         </div>
         <div class="row">
+          <div class="col-xs-6 data_label">
+            Total Space:
+          </div>
+          <div class="col-xs-6 data_value">
+            <%= config['totals'].physical_provisioned.to_human_readable_s %>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-6 data_label">
+            Space Provisioned to Volumes:
+          </div>
+          <div class="col-xs-6 data_value">
+            <%= config['totals'].volume_provisioned.to_human_readable_s %>
+          </div>
+        </div>
+        <div class="row">
           <div class="col-xs-12">
-            <%= pie_chart @location_charts[name], donut: true %>
+            <%- if config['totals'].physical_provisioned > config['totals'].volume_provisioned -%>
+              <%= pie_chart @location_charts[name], donut: true, colors: ChartHandler.under_provision_colors %>
+            <%- else -%>
+              <%= pie_chart @location_charts[name], donut: true, colors: ChartHandler.over_provision_colors %>
+            <%- end -%>
           </div>
         </div>
       </div>

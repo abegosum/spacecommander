@@ -50,7 +50,7 @@
   <div class="row">
 
     <div class="col-sm-6">
-      <%= pie_chart @aggregates_space_graph, donut: true, legend: false %>
+      <%= pie_chart @aggregates_space_graph, donut: true, legend: (@physical_manager.aggregates.count <= 5), colors: ChartHandler.colors(@physical_manager.aggregates.count) %>
     </div>
     <div class="col-sm-6">
       

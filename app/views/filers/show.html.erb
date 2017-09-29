@@ -61,7 +61,7 @@
   <div class="row">
 
     <div class="col-sm-6">
-      <%= pie_chart @filer_volumes_space_graph, donut: true, legend: false, colors: ChartHandler.all_browser_colors %>
+      <%= pie_chart @filer_volumes_space_graph, donut: true, legend: (@filer.volumes.count <= 5), colors: ChartHandler.colors(@filer.volumes.count) %>
     </div>
 
     <div class="col-sm-6">

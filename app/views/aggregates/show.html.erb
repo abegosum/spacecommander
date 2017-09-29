@@ -53,7 +53,7 @@
 
   <div class="row">
     <div class="col-sm-6">
-      <%= pie_chart @aggregate_volumes_space_graph, donut: true, legend: false, colors: ChartHandler.all_browser_colors %>
+      <%= pie_chart @aggregate_volumes_space_graph, donut: true, legend: (@aggregate.volumes.count <= 5), colors: ChartHandler.colors(@aggregate.volumes.count) %>
     </div>
 
     <div class="col-sm-6">

@@ -10,12 +10,16 @@ class LocationsController < ApplicationController
     netapp_environment.locations.each do |location_name, location_config|
       totals = location_config['totals']
       current_chart = {}
+      is_under_provisioned = totals.physical_provisioned > totals.volume_provisioned
       provision_label = 'under-provisioned by'
-      provision_label = 'over-provisioned by' unless totals.physical_provisioned > totals.volume_provisioned
-      remaining_allocated = totals.volume_provisioned - totals.volume_used
+      provision_label = 'over-provisioned by' unless is_under_provisioned
+      allocation_label = 'remaining allocated space'
+      allocation_label = 'allocated space backed by storage' unless is_under_provisioned
       provision_value = (totals.physical_provisioned - totals.volume_provisioned).abs
-      current_chart["used (#{totals.volume_used.to_human_readable_s})"] = totals.volume_used.to_gb
-      current_chart["remaining allocated space (#{remaining_allocated.to_human_readable_s})"] = remaining_allocated.to_gb
+      remaining_allocated = totals.volume_provisioned - totals.physical_used
+      remaining_allocated = remaining_allocated - provision_value unless is_under_provisioned
+      current_chart["used (#{totals.physical_used.to_human_readable_s})"] = totals.physical_used.to_gb
+      current_chart["#{allocation_label} (#{remaining_allocated.to_human_readable_s})"] = remaining_allocated.to_gb
       current_chart["#{provision_label} (#{provision_value.to_human_readable_s})"] = provision_value.to_gb
       @location_charts[location_name] = current_chart
     end

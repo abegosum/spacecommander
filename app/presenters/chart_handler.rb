@@ -4,6 +4,47 @@ class ChartHandler
     all_browser_colors.shuffle
   end
 
+  def self.colors(number_colors=nil)
+    if number_colors
+      division = number_colors / self.base_colors.count
+      remainder = number_colors % self.base_colors.count 
+      result = []
+      division.times do |i|
+        result.concat self.base_colors
+      end
+      result.concat self.base_colors[0,remainder]
+    else
+      self.base_colors
+    end
+  end
+
+  def self.under_provision_colors
+    [ '#FF9900',
+      '#3366CC',
+      '#109618' ]
+  end
+
+  def self.over_provision_colors
+    [ '#FF9900',
+      '#3366CC',
+      '#DC3912' ]
+  end
+
+  def self.base_colors
+    [ '#DC3912',
+      '#3366CC',
+      '#ff9900',
+      '#109618',
+      '#990099',
+      '#3B3EAC',
+      '#0099C6',
+      '#DD4477',
+      '#66AA00',
+      '#B82E2E',
+      '#316395',
+      '#994499' ]
+  end
+
   def self.all_browser_colors
     [ #'#F0F8FF',
       '#FAEBD7',
