@@ -1,5 +1,6 @@
 require 'netapp_sdk/NaServer'
 require 'netapp_sdk/NaElement'
+require 'thread'
 
 class NetappApiServer
 
@@ -14,6 +15,18 @@ class NetappApiServer
   API_MISSING_ERRNO = 13005
 
   attr_accessor :host, :user, :pass, :server_type, :transport, :style, :port, :api_major_version, :api_minor_version, :location
+
+  # I know, I know, "Mutex?  Semaphore?  What the hell?"
+  # Turns out, NetApp, in designing their ruby SDK decided
+  # to use globals in their element parsing.  This means that
+  # multiple calls to NaServer.invoke will intermingle the results
+  # leading to hilarious errors.  This mutex is used when making 
+  # API calls to ensure that they are all thread safe, even though
+  # the underlying code is not.  Slows things down a bit; but, we cache,
+  # so we only feel the pain on cache miss.  Sorry guys, but
+  # I don't have any control over the piece of code that's causing
+  # this need.
+  @@na_server_semaphore = Mutex.new
 
   def initialize host, init_user, init_pass
     self.host = host
@@ -40,9 +53,11 @@ class NetappApiServer
   end
 
   def invoke_api(method_name, *method_args)
-    puts "API CALL: #{method_name} (#{host})"
-    response = na_server_instance.invoke(method_name, *method_args)
-    response
+    @@na_server_semaphore.synchronize {
+      puts "API CALL: #{method_name} (#{host})"
+      response = na_server_instance.invoke(method_name, *method_args)
+      response
+    }
   end
 
   def invoke_api_or_fail(method_name, *method_args)
