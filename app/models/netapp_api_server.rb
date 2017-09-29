@@ -63,7 +63,7 @@ class NetappApiServer
   def invoke_api_or_fail(method_name, *method_args)
     response = invoke_api(method_name, *method_args)
     if response.results_status == 'failed'
-      raise RuntimeError.new "#{method_name} api call failed: #{response.results_reason}"
+      raise RuntimeError.new "#{method_name} api call failed against #{host}: #{response.results_reason}"
     end
     response
   end
