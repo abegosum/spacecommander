@@ -89,10 +89,10 @@
 
       <%- (@all_aggregates.sort_by{|aggregate| aggregate.size}).reverse.each_with_index do |aggregate, index|-%>
         <div class="row<%- unless index % 2 == 0 -%> zebra_odd<%-end-%>">
-          <div class="col-xs-6 data_label">
+          <div class="col-xs-8 data_label">
             <%= link_to aggregate.name, aggregate_path(aggregate.id) %> (<%= link_to aggregate.node_host, node_path(aggregate.node_host) %>)
           </div>
-          <div class="col-xs-6 data_value">
+          <div class="col-xs-2 data_value">
             <%= aggregate.size.to_human_readable_s %>
           </div>
         </div>
@@ -272,10 +272,10 @@
 
         <%- (@all_volumes.sort_by{|volume| volume.allocated}).reverse.each_with_index do |volume, index|-%>
           <div class="row<%- unless index % 2 == 0 -%> zebra_odd<%-end-%>">
-            <div class="col-xs-6 data_label">
+            <div class="col-xs-8 data_label">
               <%= link_to volume.name, volume_path(volume.id) %> (<%= link_to volume.containing_aggregate_name, aggregate_path(volume.containing_aggregate_uuid) %>)
             </div>
-            <div class="col-xs-6 data_value">
+            <div class="col-xs-2 data_value">
               <%= volume.allocated.to_human_readable_s %>
             </div>
           </div>

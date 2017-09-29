@@ -62,10 +62,10 @@
 
       <%- (@physical_manager.aggregates.sort_by {|aggregate| aggregate.size}).reverse.each_with_index do |aggregate, index| -%>
         <div class="row<%- unless index % 2 == 0 -%> zebra_odd<%-end-%>">
-          <div class="col-xs-6 data_label">
+          <div class="col-xs-8 data_label">
             <%= link_to aggregate.name, node_aggregate_path(@physical_manager.host, aggregate.name) %>:
           </div>
-          <div class="col-xs-6 data_value">
+          <div class="col-xs-2 data_value">
             <%= aggregate.size.to_human_readable_s %>
           </div>
         </div>

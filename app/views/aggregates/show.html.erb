@@ -89,10 +89,10 @@
 
       <%- (@aggregate.volumes.sort_by {|volume| volume.allocated}).reverse.each_with_index do |volume, index| -%>
         <div class="row<%- unless index % 2 == 0 -%> zebra_odd<%-end-%>">
-          <div class="col-xs-6 data_label">
+          <div class="col-xs-8 data_label">
             <%= link_to volume.name, volume_path(volume.id) %>:
           </div>
-          <div class="col-xs-6 data_value">
+          <div class="col-xs-2 data_value">
             <%= volume.allocated.to_human_readable_s %>
           </div>
         </div>
