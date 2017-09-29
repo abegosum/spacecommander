@@ -54,7 +54,7 @@ class NetappApiServer
 
   def invoke_api(method_name, *method_args)
     @@na_server_semaphore.synchronize {
-      puts "API CALL: #{method_name} (#{host})"
+      puts "API CALL: #{method_name} (#{host})" unless Rails.env.production?
       response = na_server_instance.invoke(method_name, *method_args)
       response
     }
