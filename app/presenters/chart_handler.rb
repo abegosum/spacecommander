@@ -1,3 +1,18 @@
+#   Copyright 2017 Aaron M. Bond
+#
+#   Licensed under the Apache License, Version 2.0 (the "License");
+#   you may not use this file except in compliance with the License.
+#   You may obtain a copy of the License at
+#
+#       http://www.apache.org/licenses/LICENSE-2.0
+#
+#   Unless required by applicable law or agreed to in writing, software
+#   distributed under the License is distributed on an "AS IS" BASIS,
+#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#   See the License for the specific language governing permissions and
+#   limitations under the License.
+#
+# A handler utility for managing visual configurations of chartkick charts.
 class ChartHandler
 
   def self.shuffle_browser_colors
@@ -46,15 +61,15 @@ class ChartHandler
   end
 
   def self.all_browser_colors
-    [ #'#F0F8FF',
+    [ '#F0F8FF',
       '#FAEBD7',
       '#00FFFF',
       '#7FFFD4',
-#      '#F0FFFF',
-#      '#F5F5DC',
-#      '#FFE4C4',
-#      '#000000',
-#      '#FFEBCD',
+      '#F0FFFF',
+      '#F5F5DC',
+      '#FFE4C4',
+      '#000000',
+      '#FFEBCD',
       '#0000FF',
       '#8A2BE2',
       '#A52A2A',

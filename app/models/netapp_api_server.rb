@@ -1,7 +1,25 @@
+#   Copyright 2017 Aaron M. Bond
+#
+#   Licensed under the Apache License, Version 2.0 (the "License");
+#   you may not use this file except in compliance with the License.
+#   You may obtain a copy of the License at
+#
+#       http://www.apache.org/licenses/LICENSE-2.0
+#
+#   Unless required by applicable law or agreed to in writing, software
+#   distributed under the License is distributed on an "AS IS" BASIS,
+#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#   See the License for the specific language governing permissions and
+#   limitations under the License.
 require 'netapp_sdk/NaServer'
 require 'netapp_sdk/NaElement'
 require 'thread'
 
+# Represents any server that can respond to the NetApp managability API.
+# This relies on the ruby classes from the NetApp Manageability SDK found
+# here: https://community.netapp.com/t5/Software-Development-Kit-SDK-and-API-Discussions/NetApp-Manageability-NM-SDK-5-4-Introduction-and-Download-Information/td-p/108181
+# Ensure that the .rb files are extracted and placed in the lib/ folder 
+# of this project
 class NetappApiServer
 
   DEFAULT_SERVER_TYPE = 'FILER'
