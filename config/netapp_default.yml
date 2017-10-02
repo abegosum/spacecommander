@@ -1,0 +1,13 @@
+---
+default: &default
+  clusters: {}
+  sevenmode_nodes: {}
+
+development:
+  <<: *default
+
+test:
+  <<: *default
+
+production:
+  <<: *default
