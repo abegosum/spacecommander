@@ -49,19 +49,11 @@ class LocationsController < ApplicationController
       "used (#{@total_physical_used.to_human_readable_s})" => @total_physical_used.to_gb,
       "free (#{@total_physical_free.to_human_readable_s})" => @total_physical_used.to_gb
     }
-    @aggregate_sizes = { }
-    (@all_aggregates.sort_by{|aggregate| aggregate.size}).reverse.each do |aggregate|
-      @aggregate_sizes["#{aggregate.name} (#{aggregate.size.to_human_readable_s})"] = aggregate.size.to_gb
-    end
     @logical_summary_graph = {
       "used data (#{@total_volume_data_used.to_human_readable_s})" => @total_volume_data_used.to_gb,
       "free data (#{@total_volume_data_free.to_human_readable_s})" => @total_volume_data_free.to_gb,
       "snapshot_reserve (#{@total_volume_snapshot_reserve.to_human_readable_s})" => @total_volume_snapshot_reserve.to_gb
     }
-    @volume_sizes = { }
-    (@all_volumes.sort_by{|volume| volume.allocated}).reverse.each do |volume|
-      @volume_sizes["#{volume.name} (#{volume.allocated.to_human_readable_s})"] = volume.allocated.to_gb
-    end
     @provision_label = "Underprovisioned by:"
     @provision_label = "Overprovisioned by:" unless @total_volume_allocated < @total_physical_size
     @provision_value = (@total_physical_size - @total_volume_allocated).abs
