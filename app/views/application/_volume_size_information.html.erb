@@ -15,7 +15,7 @@
           <div class="row<%- unless index % 2 == 0 -%> zebra_odd<%-end-%>">
             <div class="col-xs-8 data_label">
               <span class="glyphicon glyphicon-folder-open"></span>
-              <%= link_to volume.name, volume_path(volume.id) %> (<%= link_to volume.containing_aggregate_name, aggregate_path(volume.containing_aggregate_uuid) %>)
+              <%= link_to volume.name, volume_path(volume.id) %><%- if include_aggregate_label -%> (<%= link_to volume.containing_aggregate_name, aggregate_path(volume.containing_aggregate_uuid) %>)<%- end -%>
             </div>
             <div class="col-xs-2 data_value">
               <%= volume.allocated.to_human_readable_s %>

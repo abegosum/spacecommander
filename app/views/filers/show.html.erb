@@ -57,7 +57,7 @@
 
   </div>
 
-  <%= render :partial => 'volume_size_information', :locals => { :volumes => @filer.volumes} %>
+  <%= render :partial => 'volume_size_information', :locals => { :volumes => @filer.volumes, :include_aggregate_label => true} %>
 
   <div class="row">
     <div class="col-xs-12">

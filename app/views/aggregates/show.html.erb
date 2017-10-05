@@ -46,20 +46,9 @@
           <%= @aggregate.free.to_human_readable_s %>
         </div>
       </div>
-
-    </div>
-    
-  </div>
-
-  <div class="row">
-    <div class="col-sm-6">
-      <%= pie_chart @aggregate_volumes_space_graph, donut: true, legend: (@aggregate.volumes.count <= 5), colors: ChartHandler.colors(@aggregate.volumes.count) %>
-    </div>
-
-    <div class="col-sm-6">
       <div class="row">
         <div class="col-xs-12">
-          <h2>Volume Provisioning</h2>
+          <h3>Volume Provisioning</h3>
         </div>
       </div>
 
@@ -81,24 +70,11 @@
         </div>
       </div>
 
-      <div class="row">
-        <div class="col-xs-12">
-          <h2>Space Allocated to Volumes</h2>
-        </div>
-      </div>
-
-      <%- (@aggregate.volumes.sort_by {|volume| volume.allocated}).reverse.each_with_index do |volume, index| -%>
-        <div class="row<%- unless index % 2 == 0 -%> zebra_odd<%-end-%>">
-          <div class="col-xs-8 data_label">
-            <%= link_to volume.name, volume_path(volume.id) %>:
-          </div>
-          <div class="col-xs-2 data_value">
-            <%= volume.allocated.to_human_readable_s %>
-          </div>
-        </div>
-      <%- end -%>
     </div>
+    
   </div>
+
+  <%= render :partial => 'volume_size_information', :locals => { :volumes => @aggregate.volumes, :include_aggregate_label => false} %>
 
   <div class="row">
     <div class="col-xs-12">

@@ -236,7 +236,9 @@
       </div>
     </div>
   </div>
-  <%= render :partial => 'volume_size_information', :locals => { :volumes => @all_volumes} %>
+
+  <%= render :partial => 'volume_size_information', :locals => { :volumes => @all_volumes, :include_aggregate_label => true} %>
+
   <%- if @filers.values.count > 0 -%>
     <div class="row">
       <div class="col-sm-12">
