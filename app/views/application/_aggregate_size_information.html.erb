@@ -13,6 +13,7 @@
       <%- (aggregates.sort_by{|aggregate| aggregate.size}).reverse.each_with_index do |aggregate, index|-%>
         <div class="row<%- unless index % 2 == 0 -%> zebra_odd<%-end-%>">
           <div class="col-xs-8 data_label">
+            <span class="glyphicon glyphicon-hdd"></span>
             <%= link_to aggregate.name, aggregate_path(aggregate.id) %><%- if include_node_label -%> (<%= link_to aggregate.node_host, node_path(aggregate.node_host) %>)<%- end -%>
           </div>
           <div class="col-xs-2 data_value">
