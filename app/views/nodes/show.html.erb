@@ -43,36 +43,9 @@
           <%= @physical_manager.total_physical_space_free %>
         </div>
       </div>
-      
-    </div>
-  </div>
-
-  <div class="row">
-
-    <div class="col-sm-6">
-      <%= pie_chart @aggregates_space_graph, donut: true, legend: (@physical_manager.aggregates.count <= 5), colors: ChartHandler.colors(@physical_manager.aggregates.count) %>
-    </div>
-    <div class="col-sm-6">
-      
       <div class="row">
         <div class="col-xs-12">
-          <h2>Aggregate Sizes:</h2>
-        </div>
-      </div>
-
-      <%- (@physical_manager.aggregates.sort_by {|aggregate| aggregate.size}).reverse.each_with_index do |aggregate, index| -%>
-        <div class="row<%- unless index % 2 == 0 -%> zebra_odd<%-end-%>">
-          <div class="col-xs-8 data_label">
-            <%= link_to aggregate.name, node_aggregate_path(@physical_manager.host, aggregate.name) %>:
-          </div>
-          <div class="col-xs-2 data_value">
-            <%= aggregate.size.to_human_readable_s %>
-          </div>
-        </div>
-      <%- end -%>
-      <div class="row">
-        <div class="col-xs-12">
-          <h2>Volume Provisioning</h2>
+          <h3>Volume Provisioning</h3>
         </div>
       </div>
 
@@ -93,12 +66,12 @@
           <%= @provision_value %>
         </div>
       </div>
-
-
-
+      
     </div>
-
   </div>
+
+  <!-- Aggregate roll-up -->
+  <%= render :partial => 'aggregate_size_information', :locals => {:aggregates => @physical_manager.aggregates, :include_node_label => false} %>
 
   <div class="row">
     <div class="col-xs-12">
