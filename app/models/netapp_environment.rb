@@ -156,10 +156,17 @@ class NetappEnvironment
 
   def reset_clusters
     @_clusters = nil
+    Rails.cache.delete('clusters')
   end
 
   def reset_sevenmode_nodes
     @_sevenmode_nodes = nil
+    Rails.cache.delete('sevenmode_nodes')
+  end
+
+  def reset_locations
+    @_locations = nil
+    Rails.cache.delete('locations')
   end
 
   def reset_totals
@@ -167,9 +174,10 @@ class NetappEnvironment
   end
 
   def reset_all_data
-    NetappEnvironment.reset_clusters
-    NetappEnvironment.reset_sevenmode_nodes
-    NetappEnvironment.reset_totals
+    reset_clusters
+    reset_sevenmode_nodes
+    reset_totals
+    reset_locations
   end
 
   private

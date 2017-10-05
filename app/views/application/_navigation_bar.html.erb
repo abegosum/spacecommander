@@ -50,8 +50,13 @@
             <%- end -%>
           </ul>
         </li>
-      </ul>
 
+      </ul>
+      <%= link_to environment_refresh_path, class: 'pull-right navbar-btn btn btn-default' do %>
+        <span class="glyphicon glyphicon-refresh"></span>
+        Refresh All
+      <%- end -%>
     </div>
+
   </div>
 </nav>

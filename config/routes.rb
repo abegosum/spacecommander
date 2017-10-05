@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'environment/refresh'
+
   root 'locations#index'
 
   get 'charts/node_physical_show/:name', to: 'charts#node_physical_show', constraints: { name: /[^\/]+/ }, as: 'charts_node_physical_show'
