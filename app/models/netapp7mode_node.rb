@@ -15,7 +15,7 @@
 # Represents a 7-Mode NetApp server (controller), which can manage both 
 # physical and logical devices in a NetApp HA pair.
 class Netapp7modeNode < NetappApiServer
-  include Filer, PhysicalManager
+  include Filer, LogicalManager, PhysicalManager
 
   SNAPSHOT_BLOCK_SIZE = 1024
   
@@ -33,6 +33,10 @@ class Netapp7modeNode < NetappApiServer
     self.model = get_model_from_system_info
   end
 
+  def physical_devices
+    aggregates
+  end
+
   def aggregates(force_refresh=false)
     @_aggregates = nil if force_refresh
     @_aggregates ||= begin
@@ -40,6 +44,10 @@ class Netapp7modeNode < NetappApiServer
                        aggregates_element = api_result.child_get('aggregates')
                        get_aggregates_from_aggr_space_info_array_element aggregates_element
                      end
+  end
+
+  def logical_devices
+    volumes
   end
 
   def volumes(force_refresh=false)
@@ -63,7 +71,7 @@ class Netapp7modeNode < NetappApiServer
       current_aggregate.id = aggregate_id_hash[current_aggregate.name]
       volumes_element = aggregate_element.child_get('volumes')
       current_aggregate.volumes = get_volumes_from_volume_space_info_array_element volumes_element
-      current_aggregate.node_host = host
+      current_aggregate.nas_host = host
       current_aggregate
     end
   end
@@ -89,7 +97,7 @@ class Netapp7modeNode < NetappApiServer
         current_volume.containing_aggregate_name = volume_info_element.child_get_string 'containing-aggregate' 
         current_volume.containing_aggregate_uuid = aggregate_id_hash[current_volume.containing_aggregate_name]
         current_volume.id = volume_info_element.child_get_string 'uuid'
-        current_volume.filer_host = host
+        current_volume.nas_host = host
         hsh[current_volume.name] = current_volume
         hsh
       end

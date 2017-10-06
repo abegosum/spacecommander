@@ -1,7 +1,8 @@
 ---
 default: &default
-  clusters: {}
-  sevenmode_nodes: {}
+  netapp:
+    clusters: {}
+    sevenmode_nodes: {}
 
 development:
   <<: *default

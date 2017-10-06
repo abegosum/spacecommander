@@ -14,7 +14,7 @@
 #
 # Controller to display physical storage devises of NASes.
 class AggregatesController < ApplicationController
-  include NetappEnvironmentConsumer
+  include NasEnvironmentConsumer
 
   before_action :set_aggregate, only: [ :show ] 
 

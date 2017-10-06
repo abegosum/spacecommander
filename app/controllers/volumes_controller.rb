@@ -14,7 +14,7 @@
 #
 # Controller to display logical storage information for NASes.
 class VolumesController < ApplicationController
-  include NetappEnvironmentConsumer
+  include NasEnvironmentConsumer
 
   before_action :set_volume, only: [ :show ] # fire this callback before processing show action
 
@@ -22,7 +22,7 @@ class VolumesController < ApplicationController
   end
 
   def show
-    @filer = netapp_environment.find_filer_by_name @volume.filer_host
+    @filer = netapp_environment.find_filer_by_name @volume.nas_host
     used_gb_rounded = @volume.used.to_gb.round(2)
     available_gb_rounded = @volume.available.to_gb.round(2)
     snapshot_res_gb_rounded = @volume.snapshot_reserve.to_gb.round(2)

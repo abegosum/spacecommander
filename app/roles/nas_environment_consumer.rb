@@ -12,16 +12,11 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
-# Represents a logical volume on a NetApp.
-class Volume < LogicalDevice
-  extend Byteable
-  
-  bytes_attr_accessor :snapshot_reserve, :size_used_by_snapshots
+# Mixin for controllers who need to access NAS Environment information 
+# inflated from nas.yml.  See NetappEnvironment model for more information.
+module NasEnvironmentConsumer
+  def netapp_environment
+    @_netapp_environment ||= NetappEnvironment.new 
+  end
 
-  alias :containing_aggregate_name :containing_physical_device_name
-  alias :containing_aggregate_name= :containing_physical_device_name=
-
-  alias :containing_aggregate_uuid :containing_physical_device_uuid
-  alias :containing_aggregate_uuid= :containing_physical_device_uuid=
-  
 end

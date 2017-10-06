@@ -15,7 +15,7 @@
 # Represents a connection to the vif of a storage vserver in NetApp 
 # clustered mode, which can manage virtual devices (volumes).
 class NetappClusterVserver < NetappApiServer
-  include Filer
+  include Filer, LogicalManager
 
   def initialize(host, init_user, init_pass)
     super
@@ -33,6 +33,10 @@ class NetappClusterVserver < NetappApiServer
 
   def aggregate_names
     volumes.map(&:containing_aggregate_name).uniq
+  end
+
+  def logical_devices
+    volumes
   end
 
   def volumes(force_refresh=false)
@@ -71,7 +75,7 @@ class NetappClusterVserver < NetappApiServer
       current_volume.containing_aggregate_name = volume_id_attributes.child_get_string 'containing-aggregate-name'
       current_volume.containing_aggregate_uuid = volume_id_attributes.child_get_string 'containing-aggregate-uuid'
       current_volume.id = volume_id_attributes.child_get_string 'instance-uuid'
-      current_volume.filer_host = host
+      current_volume.nas_host = host
       current_volume
     end 
   end

@@ -12,9 +12,9 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
-# Controller to display logical attributes of storage NASes.
+# Controller to display logical volume from a NetApp Filer
 class FilersController < ApplicationController
-  include NetappEnvironmentConsumer
+  include NasEnvironmentConsumer
 
   before_action :set_filer, only: [ :show ] # fire this callback before processing show action
 
@@ -23,8 +23,8 @@ class FilersController < ApplicationController
 
   def show
     @filer_volume_overview_space_graph = {
-      "used (#{@filer.total_volume_space_used.to_human_readable_s})" => @filer.total_volume_space_used.to_gb,
-      "free (#{@filer.total_volume_space_free.to_human_readable_s})" => @filer.total_volume_space_free.to_gb,
+      "used (#{@filer.total_logical_device_space_used.to_human_readable_s})" => @filer.total_logical_device_space_used.to_gb,
+      "free (#{@filer.total_logical_device_space_free.to_human_readable_s})" => @filer.total_logical_device_space_free.to_gb,
     }
     unless @filer.total_volume_space_snapshot_reserve == 0
       @filer_volume_overview_space_graph["snap reserve (#{@filer.total_volume_space_snapshot_reserve.to_human_readable_s})"] = @filer.total_volume_space_snapshot_reserve.to_gb

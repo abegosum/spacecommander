@@ -33,7 +33,7 @@ Once you have the code on your server, you will be doing the following:
 
 * Configuring your ruby environment
 * Downloading the NetApp Managebility SDK and placing the ruby classes in the proper lib folder
-* Configuring your NetApp access via `config/netapp.yml`
+* Configuring your NAS access via `config/nas.yml`
 * Installing the bundle
 * Testing your setup
 * (Optional) Configuring your Apache server to serve spacecommander
@@ -68,16 +68,16 @@ ruby sdk files available to the application.
 
 ### Configuring Your NetApp Access
 
-You need to have a valid configuration in `config/netapp.yml`.  To get started,
-copy `config/netapp_default.yml`.  If you don't want to configure your NetApp
+You need to have a valid configuration in `config/nas.yml`.  To get started,
+copy `config/nas_default.yml`.  If you don't want to configure your NAS
 API access before testing your environment, you can stop there.  If you want to
-configure your NetApps now, take a look at `config/netapp_example.yml`.  You'll 
-have to configure clusters vifs under the `clusters` hash in the YAML file and
-any storage virtual servers under the `vservers` hash key in each cluster.  For
-7-mode servers, you can add them to to the `sevenmode_nodes` hash key.  The api
-users should have read-only (at least) access to the `ontapi` application.
+configure your NASes now, take a look at `config/nas_example.yml`.  You'll 
+have to configure NetApp cluster vifs under the `clusters` hash in the YAML file and
+any NetApp storage virtual servers under the `vservers` hash key in each cluster.  For
+NetApp 7-mode servers, you can add them to to the `sevenmode_nodes` hash key.  The NetApp
+api users should have read-only (at least) access to the `ontapi` application.
 
-For every cluster, vserver and 7-mode controller, you can also add a location
+For every NAS endpoint (cluster, vserver and 7-mode controller), you can also add a location
 string.  All matching locations will be grouped together and summed in the 
 location pages.
 

@@ -12,29 +12,22 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
-# Represents a physical storage device on a NAS.
-class Aggregate
-  extend Byteable
+# Represents a physical aggregate on a NetApp.
+class Aggregate < PhysicalDevice
+
+  attr_accessor :metadata_size, :asis_used 
+
+  alias :volume_names :logical_device_names
+  alias :volume_names= :logical_device_names=
+
+  alias :volume_used :logical_used
+  alias :volume_used= :logical_used=
+
+  alias :volumes :logical_devices
+  alias :volumes= :logical_devices=
+
+  alias :total_volume_space_allocated :total_logical_space_allocated
   
-  attr_accessor :name, :volume_names, :allocated, :metadata_size, :asis_used, :volume_used, :id, :node_host
-  attr_writer :volumes
-  bytes_attr_accessor :size, :used, :free
-
-  def volumes
-    @volumes = [] unless @volumes
-    @volumes
-  end
-
-  def total_volume_space_allocated
-    @_total_volume_space_allocated ||= begin
-                                         space = Bytes.new(0)
-                                         volumes.each do |volume|
-                                           space = space + volume.allocated
-                                         end
-                                         space
-                                       end
-  end
-
   def self.create_from_aggr_attributes_element(aggr_attributes_element)
     aggr_space_attributes_element = aggr_attributes_element.child_get 'aggr-space-attributes'
     current_aggregate = new

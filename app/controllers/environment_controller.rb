@@ -1,5 +1,5 @@
 class EnvironmentController < ApplicationController
-  include NetappEnvironmentConsumer
+  include NasEnvironmentConsumer
 
   def refresh
     netapp_environment.reset_all_data

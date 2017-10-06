@@ -20,7 +20,7 @@ class NetappEnvironment
   def clusters
     @_clusters ||= Rails.cache.fetch('clusters', expires_in: 12.hours) do
                      clusters = {}
-                     Rails.configuration.netapp['clusters'].each do |cluster_host, cluster_config| 
+                     Rails.configuration.nas['netapp']['clusters'].each do |cluster_host, cluster_config| 
                        api_user = cluster_config['user']
                        password = cluster_config['password']
                        vservers = cluster_config['vservers']
@@ -42,7 +42,7 @@ class NetappEnvironment
     @_sevenmode_nodes ||= Rails.cache.fetch('sevenmode_nodes', expires_in: 12.hours) do 
                             nodes = {}
                             nodes_by_id = {}
-                            Rails.configuration.netapp['sevenmode_nodes'].each do |node_host, node_config|
+                            Rails.configuration.nas['netapp']['sevenmode_nodes'].each do |node_host, node_config|
                               api_user = node_config['user']
                               password = node_config['password']
                               node = Netapp7modeNode.new node_host, api_user, password
@@ -60,14 +60,14 @@ class NetappEnvironment
   def locations
     @_locations ||= Rails.cache.fetch('locations', expires_in: 12.hours) do
                       locations = {}
-                      Rails.configuration.netapp['clusters'].each do |host, config|
+                      Rails.configuration.nas['netapp']['clusters'].each do |host, config|
                         if config['location']
                           locations[config['location']] = {} unless locations[config['location']]
                           locations[config['location']]['clusters'] = {} unless locations[config['location']]['clusters']
                           locations[config['location']]['clusters'][host] = clusters[host]
                         end
                       end
-                      Rails.configuration.netapp['sevenmode_nodes'].each do |host, config|
+                      Rails.configuration.nas['netapp']['sevenmode_nodes'].each do |host, config|
                         if config['location']
                           locations[config['location']] = {} unless locations[config['location']]
                           locations[config['location']]['sevenmode_nodes'] = {} unless locations[config['location']]['sevenmode_nodes']
@@ -135,7 +135,7 @@ class NetappEnvironment
     result = nil
     clusters.each do |hostname, cluster|
       cluster.vservers.each do |vserverhostname, vserver|
-        result = vserver.find_volume_by_id id
+        result = vserver.find_logical_device_by_id id
         break if result
       end
       break if result
@@ -143,7 +143,7 @@ class NetappEnvironment
 
     unless result
       sevenmode_nodes.each do |sevenmodehostname, filer|
-        result = filer.find_volume_by_id id
+        result = filer.find_logical_device_by_id id
         break if result
       end
     end

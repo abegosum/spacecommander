@@ -14,7 +14,7 @@
 #
 # Controller to display physical storage information for NASes.
 class NodesController < ApplicationController
-  include NetappEnvironmentConsumer
+  include NasEnvironmentConsumer
 
   before_action :set_physical_manager, only: [ :show ] # fire this callback before processing show action
   def index

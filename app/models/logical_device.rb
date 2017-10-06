@@ -12,11 +12,10 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
-# Mixin for controllers who need to access NetApp Environment information 
-# inflated from netapp.yml.  See NetappEnvironment model for more information.
-module NetappEnvironmentConsumer
-  def netapp_environment
-    @_netapp_environment ||= NetappEnvironment.new 
-  end
+# Represents a logical storage device on a NAS.
+class LogicalDevice
+  extend Byteable
 
+  attr_accessor :name, :containing_physical_device_name, :containing_physical_device_uuid, :id, :nas_host
+  bytes_attr_accessor :allocated, :used, :available
 end

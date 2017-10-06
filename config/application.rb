@@ -15,6 +15,6 @@ module Spacecommander
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
     config.autoload_paths += %W(#{config.root}/lib/netapp_sdk)
-    config.netapp = config_for(:netapp)
+    config.nas = config_for(:nas)
   end
 end

@@ -28,6 +28,10 @@ class NetappClusterVif < NetappApiServer
     self.nodes = {}
   end
 
+  def physical_devices
+    aggregates
+  end
+
   def aggregates(force_refresh=false)
     if !@_aggregates || force_refresh
       @_aggregates = []
@@ -55,7 +59,7 @@ class NetappClusterVif < NetappApiServer
     return [] unless aggregate_list_element
     aggregate_list_element.children_get.map do |aggr_attributes_element|
       current_aggregate = Aggregate.create_from_aggr_attributes_element aggr_attributes_element
-      current_aggregate.node_host = host
+      current_aggregate.nas_host = host
       current_aggregate
     end
   end

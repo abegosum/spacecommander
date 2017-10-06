@@ -1,0 +1,48 @@
+---
+default: &default
+  netapp:
+    clusters:
+      cluster1-vif.example.com:
+        user: 'api_username'
+        password: 'api_password'
+        location: 'HQ'
+        vservers:
+          cluster1-vserver1.example.com:
+            user: 'api_username'
+            password: 'api_password'
+            location: 'HQ'
+          cluster1-vserver2.example.com:
+            user: 'api_username'
+            password: 'api_password'
+            location: 'HQ'
+      cluster2-vif.example.com:
+        user: 'api_username'
+        password: 'api_password'
+        location: 'HQ'
+        vservers:
+          cluster2-vserver1.example.com:
+            user: 'api_username'
+            password: 'api_password'
+            location: 'HQ'
+          cluster2-vserver2.example.com:
+            user: 'api_username'
+            password: 'api_password'
+            location: 'HQ'
+    sevenmode_nodes:
+      sevenmode1.example.com:
+        user: 'api_username'
+        password: 'api_password'
+        location: 'HQ'
+      sevenmode2.example.com:
+        user: 'api_username'
+        password: 'api_password'
+        location: 'HQ'
+
+development:
+  <<: *default
+
+test:
+  <<: *default
+
+production:
+  <<: *default

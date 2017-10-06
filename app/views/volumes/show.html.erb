@@ -5,7 +5,7 @@
     <div class="col-sm-12">
       <h1>
         <span class="glyphicon glyphicon-folder-open"></span>&nbsp;
-        Volume - <%= @volume.filer_host %> - <%= @volume.name %>
+        Volume - <%= @volume.nas_host %> - <%= @volume.name %>
       </h1>
     </div>
   </div>
@@ -86,7 +86,7 @@
       Netapp Filer:
     </div>
     <div class="col-xs-10 data_value">
-      <%= link_to @volume.filer_host, filer_path(@filer.host) %>
+      <%= link_to @volume.nas_host, filer_path(@filer.host) %>
     </div>
   </div>
 

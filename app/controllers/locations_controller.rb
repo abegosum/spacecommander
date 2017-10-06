@@ -14,7 +14,7 @@
 #
 # Controller to display roll-up information about locations of NASes.
 class LocationsController < ApplicationController
-  include NetappEnvironmentConsumer
+  include NasEnvironmentConsumer
 
   before_action :set_and_sort_nodes, only: [ :show ] # fire this callback before processing show action
   before_action :set_location, only: [:show]

@@ -3,7 +3,7 @@
     <div class="col-sm-12">
       <h1>
         <span class="glyphicon glyphicon-hdd"></span>
-        Aggregate - <%= @aggregate.node_host %> - <%= @aggregate.name %>
+        Aggregate - <%= @aggregate.nas_host %> - <%= @aggregate.name %>
       </h1>
     </div>
   </div>
@@ -90,7 +90,7 @@
       Managing Node:
     </div>
     <div class="col-xs-10 data_value">
-      <%= link_to @aggregate.node_host, node_path(@aggregate.node_host) %>
+      <%= link_to @aggregate.nas_host, node_path(@aggregate.nas_host) %>
     </div>
   </div>
 
