@@ -20,7 +20,7 @@ require 'thread'
 # here: https://community.netapp.com/t5/Software-Development-Kit-SDK-and-API-Discussions/NetApp-Manageability-NM-SDK-5-4-Introduction-and-Download-Information/td-p/108181
 # Ensure that the .rb files are extracted and placed in the lib/ folder 
 # of this project
-class NetappApiServer
+class NetappApiServer < NasServer
 
   DEFAULT_SERVER_TYPE = 'FILER'
   DEFAULT_STYLE = 'LOGIN'
@@ -56,6 +56,26 @@ class NetappApiServer
     self.style = DEFAULT_STYLE
     self.transport = DEFAULT_TRANSPORT_TYPE
     self.port = DEFAULT_PORT
+  end
+
+  def nas_type
+    "NetApp"
+  end
+
+  def physical_device_label(plural = false)
+    if plural
+      "Aggregates"
+    else
+      "Aggregate"
+    end
+  end
+
+  def logical_device_label(plural = false)
+    if plural
+      "Volumes"
+    else
+      "Volume"
+    end
   end
 
   def na_server_instance
