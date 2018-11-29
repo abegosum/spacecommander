@@ -70,3 +70,9 @@ end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+
+# 2018-11-29 - Updated to Address Known Vulnerabilities
+gem 'rack', '>= 2.0.6'
+gem 'nokogiri', '>= 1.8.2'
+gem 'rails-html-sanitizer', '>= 1.0.4'
+gem 'loofah', '>= 2.2.3'
