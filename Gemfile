@@ -34,13 +34,13 @@ gem 'jbuilder', '~> 2.5'
 # gem 'capistrano-rails', group: :development
 
 # Bootstrap for look and feel
-gem 'bootstrap-sass', '~> 3.3.6'
+gem 'bootstrap-sass', '>= 3.4.1'
 
 # jQuery library
 gem 'jquery-rails'
 
 # chartkick for pretty charts
-gem 'chartkick'
+gem 'chartkick', '>= 3.2.0'
 
 # Faraday for rest client access
 gem 'faraday'
@@ -76,3 +76,7 @@ gem 'rack', '>= 2.0.6'
 gem 'nokogiri', '>= 1.8.2'
 gem 'rails-html-sanitizer', '>= 1.0.4'
 gem 'loofah', '>= 2.2.3'
+
+#2019-08-01 - Updated to Address Known Vulnerabilities
+gem 'yard', '>= 0.9.20'
+gem 'actionview', '>= 5.1.6.2'
