@@ -1,6 +1,6 @@
 # spacecommander
 
-An app to get control over the free space in a large NAS environment.  
+An app to get control over the free space in a large NAS environment. 
 Spacecommander enables you to see free space, provisioned space, and 
 over/under provisioning in an environment with multiple locations and 
 NAS servers.
@@ -19,7 +19,7 @@ NAS servers.
 Spacecommander requires the following:
 
 * A ruby environment
-  - This app has been tested with ruby 2.2.2 and uses rails 5.1.3.  Other versions of ruby may work also; but, I have not tested them.
+  - This app has been tested with ruby 2.6.3 and uses rails 5.1.7.  Other versions of ruby may work also; but, I have not tested them.
   - I recommend using [rbenv](https://github.com/rbenv/rbenv) to set up your ruby environment.  The `.ruby-version` file included in this project should automatically set the tested version of ruby, if it is installed.
 * The [NetApp Manageability SDK](https://community.netapp.com/t5/Software-Development-Kit-SDK-and-API-Discussions/NetApp-Manageability-NM-SDK-5-4-Introduction-and-Download-Information/td-p/108181)
   - This is required if you're using NetApp NASes.
@@ -40,7 +40,7 @@ Once you have the code on your server, you will be doing the following:
 
 ### Configuring Your Ruby Environment
 
-This application has been tested against ruby 2.2.2.  You will need a ruby
+This application has been tested against ruby 2.6.3.  You will need a ruby
 environment installed to run this application, preferably against the tested 
 version.  If you don't already have one, I can recommend using [rbenv](https://github.com/rbenv/rbenv)
 to set one up (follow the instructions on the rbenv github page).
@@ -128,7 +128,7 @@ DocumentRoot /path/to/project/public
 
 ## License
 
-Copyright 2017 Aaron M. Bond
+Copyright 2019 Aaron M. Bond
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
