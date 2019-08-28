@@ -71,6 +71,7 @@ class NetappClusterVserver < NetappApiServer
       current_volume.used = volume_space_attributes.child_get_int 'size-used'
       current_volume.available = volume_space_attributes.child_get_int 'size-available'
       current_volume.snapshot_reserve = volume_space_attributes.child_get_int 'snapshot-reserve-size'
+      current_volume.logical_used = volume_space_attributes.child_get_int 'logical-used'
       current_volume.size_used_by_snapshots = volume_space_attributes.child_get_int 'size-used-by-snapshots'
       current_volume.containing_aggregate_name = volume_id_attributes.child_get_string 'containing-aggregate-name'
       current_volume.containing_aggregate_uuid = volume_id_attributes.child_get_string 'containing-aggregate-uuid'

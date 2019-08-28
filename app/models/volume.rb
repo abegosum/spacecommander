@@ -15,13 +15,13 @@
 # Represents a logical volume on a NetApp.
 class Volume < LogicalDevice
   extend Byteable
-  
-  bytes_attr_accessor :snapshot_reserve, :size_used_by_snapshots
+
+  bytes_attr_accessor :snapshot_reserve, :size_used_by_snapshots, :logical_used
 
   alias :containing_aggregate_name :containing_physical_device_name
   alias :containing_aggregate_name= :containing_physical_device_name=
 
   alias :containing_aggregate_uuid :containing_physical_device_uuid
   alias :containing_aggregate_uuid= :containing_physical_device_uuid=
-  
+
 end
