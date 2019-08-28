@@ -73,10 +73,12 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 # 2018-11-29 - Updated to Address Known Vulnerabilities
 gem 'rack', '>= 2.0.6'
-gem 'nokogiri', '>= 1.8.2'
 gem 'rails-html-sanitizer', '>= 1.0.4'
 gem 'loofah', '>= 2.2.3'
 
-#2019-08-01 - Updated to Address Known Vulnerabilities
+# 2019-08-01 - Updated to Address Known Vulnerabilities
 gem 'yard', '>= 0.9.20'
 gem 'actionview', '>= 5.1.6.2'
+
+# 2019-08-28 - Updated to Address Known Vulnerabilities
+gem 'nokogiri', '>= 1.10.4'
