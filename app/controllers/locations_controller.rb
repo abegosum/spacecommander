@@ -47,7 +47,7 @@ class LocationsController < ApplicationController
     set_all_volumes
     @physical_summary_graph = {
       "used (#{@total_physical_used.to_human_readable_s})" => @total_physical_used.to_gb,
-      "free (#{@total_physical_free.to_human_readable_s})" => @total_physical_used.to_gb
+      "free (#{@total_physical_free.to_human_readable_s})" => @total_physical_free.to_gb
     }
     @logical_summary_graph = {
       "used data (#{@total_volume_data_used.to_human_readable_s})" => @total_volume_data_used.to_gb,
