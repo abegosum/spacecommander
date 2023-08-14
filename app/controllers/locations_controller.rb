@@ -23,7 +23,7 @@ class LocationsController < ApplicationController
     @locations = netapp_environment.locations
     @location_charts = {}
     netapp_environment.locations.each do |location_name, location_config|
-      totals = location_config['totals']
+      totals = location_config[:totals]
       current_chart = {}
       is_under_provisioned = totals.physical_provisioned > totals.volume_provisioned
       provision_label = 'under-provisioned by'
@@ -61,8 +61,8 @@ class LocationsController < ApplicationController
 
   private
   def set_and_sort_nodes
-    @cluster_vifs = netapp_environment.locations[params[:name]]['clusters']
-    @sevenmode_nodes = netapp_environment.locations[params[:name]]['sevenmode_nodes']
+    @cluster_vifs = netapp_environment.locations[params[:name]][:clusters]
+    @sevenmode_nodes = netapp_environment.locations[params[:name]][:sevenmode_nodes]
     @filers = @sevenmode_nodes.clone
     @cluster_vifs.values.each do |cluster|
       @filers.merge!(cluster.vservers)
@@ -70,14 +70,14 @@ class LocationsController < ApplicationController
   end
 
   def set_location_physical_totals
-    location_totals = netapp_environment.locations[params[:name]]['totals']
+    location_totals = netapp_environment.locations[params[:name]][:totals]
     @total_physical_size ||= location_totals.physical_provisioned
     @total_physical_used ||= location_totals.physical_used
     @total_physical_free ||= location_totals.physical_available
   end
 
   def set_location_logical_totals
-    location_totals = netapp_environment.locations[params[:name]]['totals']
+    location_totals = netapp_environment.locations[params[:name]][:totals]
     @total_volume_allocated ||= location_totals.volume_provisioned
     @total_volume_snapshot_reserve ||= location_totals.volume_snapshot_reserve
     @total_volume_data_used ||= location_totals.volume_used
@@ -85,8 +85,8 @@ class LocationsController < ApplicationController
   end
 
   def set_all_aggregates
-    clusters = netapp_environment.locations[params[:name]]['clusters']
-    sevenmode_nodes = netapp_environment.locations[params[:name]]['sevenmode_nodes']
+    clusters = netapp_environment.locations[params[:name]][:clusters]
+    sevenmode_nodes = netapp_environment.locations[params[:name]][:sevenmode_nodes]
     @all_aggregates ||= begin
                           aggregates = []
                           clusters.values.each do |cluster_vif|
@@ -100,8 +100,8 @@ class LocationsController < ApplicationController
   end
 
   def set_all_volumes
-    clusters = netapp_environment.locations[params[:name]]['clusters']
-    sevenmode_nodes = netapp_environment.locations[params[:name]]['sevenmode_nodes']
+    clusters = netapp_environment.locations[params[:name]][:clusters]
+    sevenmode_nodes = netapp_environment.locations[params[:name]][:sevenmode_nodes]
     @all_volumes ||= begin
                        volumes = []
                        clusters.values.each do |cluster_vif|

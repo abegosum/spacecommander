@@ -47,9 +47,9 @@ class NetappApiServer < NasServer
   @@na_server_semaphore = Mutex.new
 
   def initialize host, init_user, init_pass
-    self.host = host
-    self.user = init_user
-    self.pass = init_pass
+    self.host = host.to_s
+    self.user = init_user.to_s
+    self.pass = init_pass.to_s
     self.api_major_version = DEFAULT_API_MAJOR_VERSION
     self.api_minor_version = DEFAULT_API_MINOR_VERSION
     self.server_type = DEFAULT_SERVER_TYPE
