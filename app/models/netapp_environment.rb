@@ -69,7 +69,7 @@ class NetappEnvironment
                       end
                       Rails.configuration.nas[:netapp][:sevenmode_nodes].each do |host, config|
                         if config[:location]
-                          locations[config[:location]] = {} unless locations[config['location']]
+                          locations[config[:location]] = {} unless locations[config[:location]]
                           locations[config[:location]][:sevenmode_nodes] = {} unless locations[config[:location]][:sevenmode_nodes]
                           locations[config[:location]][:sevenmode_nodes][host] = sevenmode_nodes[host]
                         end
