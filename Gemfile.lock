@@ -280,6 +280,7 @@ DEPENDENCIES
   rack (>= 2.0.6)
   rails (~> 6.1.0)
   rails-html-sanitizer (>= 1.0.4)
+  rexml
   sass-rails (~> 5.0)
   selenium-webdriver
   spring

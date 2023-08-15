@@ -47,6 +47,8 @@ gem 'faraday'
 
 gem 'bootsnap'
 
+gem 'rexml'
+
 # temp for this version of rails (6.0)
 gem 'psych', '< 4'
 
