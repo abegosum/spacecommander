@@ -9,9 +9,12 @@ Bundler.require(*Rails.groups)
 module Spacecommander
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
-    config.load_defaults 7.0
+    config.load_defaults 7.1
 
-    config.active_record.legacy_connection_handling = false
+    # lib/netapp_sdk is the vendored NetApp SDK, whose files `require` each
+    # other by bare filename (e.g. `require 'NaElement'`), relying on
+    # autoload paths being on $LOAD_PATH. Rails 7.1 defaults this to false.
+    config.add_autoload_paths_to_load_path = true
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
