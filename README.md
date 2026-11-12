@@ -146,3 +146,8 @@ limitations under the License.
 
 Chartkick is provided under the MIT License.  See the `chartkick_LICENSE` file for more information.
 
+## AI Disclosure
+
+AI is used to handle some boilerplate management tasks (rails and ruby upgrade), but application
+code is written by hand.
+
