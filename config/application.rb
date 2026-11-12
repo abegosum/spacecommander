@@ -9,7 +9,7 @@ Bundler.require(*Rails.groups)
 module Spacecommander
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
-    config.load_defaults 7.1
+    config.load_defaults 7.2
 
     # lib/netapp_sdk is the vendored NetApp SDK, whose files `require` each
     # other by bare filename (e.g. `require 'NaElement'`), relying on
