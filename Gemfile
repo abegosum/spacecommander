@@ -87,3 +87,9 @@ gem 'actionview', '>= 5.1.6.2'
 
 # 2019-08-28 - Updated to Address Known Vulnerabilities
 gem 'nokogiri', '>= 1.10.4'
+
+# 2026-11-17 - Pinned below Ruby 3.4's default json 3.x: sprockets 3.7.5's
+# manifest reader still passes the `create_additions` keyword, which json 3.x
+# removed entirely (ArgumentError on every boot). Remove this pin once
+# sprockets is upgraded past 3.x.
+gem 'json', '~> 2.12'
