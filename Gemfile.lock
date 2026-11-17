@@ -117,7 +117,8 @@ GEM
     drb (2.2.3)
     erb (6.0.7)
     erubi (1.13.1)
-    execjs (2.8.1)
+    execjs (2.10.2)
+      json (>= 2)
     faraday (2.15.1)
       faraday-net_http (>= 2.0, < 3.6)
       json
@@ -360,4 +361,4 @@ DEPENDENCIES
   yard (>= 0.9.20)
 
 BUNDLED WITH
-   2.4.18
+   2.6.9
